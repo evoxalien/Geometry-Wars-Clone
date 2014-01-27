@@ -23,6 +23,7 @@ namespace GeometryWars
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Instance = this;
         }
 
         /// <summary>
@@ -44,10 +45,14 @@ namespace GeometryWars
         /// </summary>
         protected override void LoadContent()
         {
+           
+            // TODO: use this.Content to load your game content here
+            public static GameRoot Instance { get; private set; }
+            public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
+            public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
+            
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -87,5 +92,4 @@ namespace GeometryWars
 
             base.Draw(gameTime);
         }
-    }
 }
