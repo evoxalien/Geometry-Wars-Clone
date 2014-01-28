@@ -97,7 +97,12 @@ namespace GeometryWars
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
             EntityManager.Draw(spriteBatch);
+
+            //Draw Cursor
+            spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
             spriteBatch.End();
+
+
 
             base.Draw(gameTime);
         }

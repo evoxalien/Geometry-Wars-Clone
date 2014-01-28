@@ -53,7 +53,7 @@ namespace GeometryWars
         public static Vector2 GetMovementDirection()
         {
             Vector2 direction = gamepadState.ThumbSticks.Left;
-            //direction.Y *= -1; //invert the y-axis
+            direction.Y *= -1; //invert the y-axis
 
             if (keyboardState.IsKeyDown(Keys.A))
                 direction.X -= 1;
@@ -75,7 +75,8 @@ namespace GeometryWars
         {
             
             if (isAimingWithMouse)
-                return GetMouseAimDirection();
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    return GetMouseAimDirection();
             
             Vector2 direction = gamepadState.ThumbSticks.Right;
             direction.Y *= -1;

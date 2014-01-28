@@ -26,7 +26,7 @@ namespace GeometryWars
             Bullet = content.Load<Texture2D>("Bullet");
             Seeker = content.Load<Texture2D>("Player");
             Wanderer = content.Load<Texture2D>("Player");
-            Pointer = content.Load<Texture2D>("Player");
+            Pointer = content.Load<Texture2D>("Bullet");
             /*
             Seeker = content.Load<Texture2D>("Seeker");
             Wanderer = content.Load<Texture2D>("Wanderer");            
