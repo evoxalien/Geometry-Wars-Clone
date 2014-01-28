@@ -75,6 +75,9 @@
     <Compile Include="Art.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityManager.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="PlayerShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GameRoot.cs" />

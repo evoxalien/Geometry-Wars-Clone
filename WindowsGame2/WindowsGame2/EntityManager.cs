@@ -19,6 +19,8 @@ namespace GeometryWars
         static bool isUpdating;
         static List<Entity> addedEntities = new List<Entity>();
 
+        public static int Count { get { return entities.Count; } }
+
         public static void Add(Entity entity)
         {
             if (!isUpdating)

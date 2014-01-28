@@ -18,13 +18,19 @@ namespace GeometryWars
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static GameRoot Instance { get; private set; }
+        public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
+        public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
 
         public GameRoot()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Instance = this;
+
+            
         }
+
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -37,6 +43,7 @@ namespace GeometryWars
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            EntityManager.Add(PlayerShip.Instance);
         }
 
         /// <summary>
@@ -45,12 +52,10 @@ namespace GeometryWars
         /// </summary>
         protected override void LoadContent()
         {
-           
+
             // TODO: use this.Content to load your game content here
-            public static GameRoot Instance { get; private set; }
-            public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
-            public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
-            
+            Art.Load(Content);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -71,6 +76,7 @@ namespace GeometryWars
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Input.Update();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -78,6 +84,7 @@ namespace GeometryWars
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+            EntityManager.Update();
         }
 
         /// <summary>
@@ -86,10 +93,13 @@ namespace GeometryWars
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
+            EntityManager.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
+    }
 }
