@@ -35,7 +35,7 @@ namespace GeometryWars
         public override void Update()
         {
             const float speed = 8;
-            Velocity = speed * Input.GetMouseAimDirection();
+            Velocity = speed * Input.GetAimDirection();
             Position += Velocity;
             Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
 

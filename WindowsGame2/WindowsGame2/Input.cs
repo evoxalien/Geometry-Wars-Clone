@@ -73,9 +73,10 @@ namespace GeometryWars
 
         public static Vector2 GetAimDirection()
         {
+            
             if (isAimingWithMouse)
                 return GetMouseAimDirection();
-
+            
             Vector2 direction = gamepadState.ThumbSticks.Right;
             direction.Y *= -1;
 
