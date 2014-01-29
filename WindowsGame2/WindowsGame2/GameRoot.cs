@@ -80,6 +80,7 @@ namespace GeometryWars
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
+            EnemySpawner.Update();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();

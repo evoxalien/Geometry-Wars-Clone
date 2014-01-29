@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryWars", "WindowsGame2\WindowsGame2\GeometryWars.csproj", "{DC21ED5C-716C-46DD-B239-BF8BEA05EECB}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GeometryWarsContent", "WindowsGame2\WindowsGame2Content\GeometryWarsContent.contentproj", "{08EB876E-1BF6-4101-B7AF-5222EEB7CF5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryWarsContent", "WindowsGame2\WindowsGame2Content\GeometryWarsContent.contentproj", "{08EB876E-1BF6-4101-B7AF-5222EEB7CF5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
