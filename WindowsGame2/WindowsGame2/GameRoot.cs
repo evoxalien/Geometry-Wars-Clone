@@ -28,6 +28,9 @@ namespace GeometryWars
             Content.RootDirectory = "Content";
             Instance = this;
 
+            graphics.PreferredBackBufferHeight = 812;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.ApplyChanges();
             
         }
 
