@@ -18,7 +18,7 @@ namespace GeometryWars
 
         const int cooldownFrames = 6;
         int cooldownRemaining = 0;
-        static Random rand = new Random();
+        public static Random rand = new Random();
 
         public static PlayerShip Instance
         {
