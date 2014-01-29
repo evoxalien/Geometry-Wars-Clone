@@ -19,6 +19,7 @@ namespace GeometryWars
         private int timeUntilStart = 60;
         public bool IsActive { get { return timeUntilStart <= 0; } }
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
+        public int PointValue { get; private set; }
 
         public Enemy(Texture2D image, Vector2 position)
         {
@@ -59,7 +60,19 @@ namespace GeometryWars
                 yield return 0;
             }
         }
-
+/*
+        IEnumerable<int> DodgeBullets(float acceleration = 1f)
+        {
+            while (true)
+            {
+                for (int i = 0; i < EntityManager.bullets.Count; i++)
+                Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
+                if (Velocity != Vector2.Zero)
+                    Orientation = Velocity.ToAngle();
+                yield return 0;
+            }
+        }
+        */
         IEnumerable<int> MoveInASquare()
         {
             const int framesPerSide = 30;
@@ -136,6 +149,8 @@ namespace GeometryWars
 
         public void WasShot()
         {
+            PlayerStatus.AddPoints(PointValue);
+            PlayerStatus.IncreaseMultiplier();
             IsExpired = true;
         }
 
@@ -159,6 +174,15 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveRandomly());
+
+            return enemy;
+        }
+
+        public static Enemy CreateSquareDance(Vector2 position)
+        {
+            var enemy = new Enemy(Art.Wanderer, position);
+            enemy.AddBehaviour(enemy.MoveInASquare());
+            enemy.AddBehaviour(enemy.FollowPlayer());
 
             return enemy;
         }

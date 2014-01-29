@@ -48,6 +48,7 @@ namespace GeometryWars
         public void Kill()
         {
             framesUntilRespawn = 60;
+            PlayerStatus.RemoveLife();
             EnemySpawner.Reset();
         }
 

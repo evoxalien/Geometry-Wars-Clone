@@ -21,8 +21,10 @@ namespace GeometryWars
         {
             if (!PlayerShip.Instance.IsDead && EntityManager.Count < 200)
             {
-                if (rand.Next((int)inverseSpawnChance) == 0)
-                    EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                //if (rand.Next((int)inverseSpawnChance) == 0)
+                    //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
+                //if (rand.Next((int)inverseSpawnChance) == 0)
+                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 if (rand.Next((int)inverseSpawnChance) == 0)
                     EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
             }

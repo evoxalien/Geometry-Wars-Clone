@@ -20,6 +20,8 @@ namespace GeometryWars
         public static Texture2D Bullet { get; private set; }
         public static Texture2D Pointer { get; private set; }
 
+        public static SpriteFont Font { get; private set; }
+
         public static void Load(ContentManager content)
         {
             Player = content.Load<Texture2D>("Player");
@@ -27,6 +29,8 @@ namespace GeometryWars
             Seeker = content.Load<Texture2D>("Seeker");
             Wanderer = content.Load<Texture2D>("Wanderer");
             Pointer = content.Load<Texture2D>("Pointer");
+
+            Font = content.Load<SpriteFont>("Font");
         }
 
     }

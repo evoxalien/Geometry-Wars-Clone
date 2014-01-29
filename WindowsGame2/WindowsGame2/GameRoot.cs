@@ -21,7 +21,7 @@ namespace GeometryWars
         public static GameRoot Instance { get; private set; }
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
-
+        public static GameTime GameTime;
         public GameRoot()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -84,9 +84,9 @@ namespace GeometryWars
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            GameTime = new GameTime();
             // TODO: Add your update logic here
-
+            PlayerStatus.Update();
             base.Update(gameTime);
             EntityManager.Update();
         }
@@ -101,6 +101,8 @@ namespace GeometryWars
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
             EntityManager.Draw(spriteBatch);
+            DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
+            DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
 
             //Draw Cursor
             spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
@@ -109,6 +111,12 @@ namespace GeometryWars
 
 
             base.Draw(gameTime);
+        }
+
+        private void DrawRightAlignedString(string text, float y)
+        {
+            var textWidth = Art.Font.MeasureString(text).X;
+            spriteBatch.DrawString(Art.Font, text, new Vector2(ScreenSize.X - textWidth - 5, y), Color.White);
         }
     }
 }

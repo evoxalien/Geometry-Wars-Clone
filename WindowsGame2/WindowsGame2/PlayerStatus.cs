@@ -41,7 +41,7 @@ namespace GeometryWars
 
         public static void Update()
         {
-           /*
+           
             if (Multiplier > 1)
             {//update teh multiplier timer
                 if ((multiplierTimeLeft -= (float)GameRoot.GameTime.ElapsedGameTime.TotalSeconds) <= 0)
@@ -50,7 +50,7 @@ namespace GeometryWars
                     ResetMultiplier();
                 }
             }
-          */
+          
         }
 
         public static void AddPoints(int basePoints)
@@ -80,7 +80,7 @@ namespace GeometryWars
             Multiplier = 1;
         }
 
-        public static void RemovesLife()
+        public static void RemoveLife()
         {
             Lives--;
         }
