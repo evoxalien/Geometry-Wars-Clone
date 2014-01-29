@@ -57,10 +57,10 @@ namespace GeometryWars
                 float randomSpread = rand.NextFloat(-0.04f, 0.04f) + rand.NextFloat(-0.04f, 0.04f);
                 Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11F);
 
-                Vector2 offset = Vector2.Transform(new Vector2(25, -8), aimQuat);
+                Vector2 offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
                 EntityManager.Add(new Bullet(Position + offset, vel));
 
-                offset = Vector2.Transform(new Vector2(25, -8), aimQuat);
+                offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                 EntityManager.Add(new Bullet(Position + offset, vel));
             }
 
