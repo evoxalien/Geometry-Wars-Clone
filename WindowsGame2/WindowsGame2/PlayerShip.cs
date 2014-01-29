@@ -16,9 +16,11 @@ namespace GeometryWars
     {
         private static PlayerShip instance;
 
+        int framesUntilRespawn = 0;
         const int cooldownFrames = 6;
         int cooldownRemaining = 0;
         public static Random rand = new Random();
+        public bool IsDead { get { return framesUntilRespawn > 0; } }
 
         public static PlayerShip Instance
         {
@@ -37,8 +39,25 @@ namespace GeometryWars
             Radius = 10;
         }
 
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if(!IsDead)
+                base.Draw(spriteBatch);
+        }
+
+        public void Kill()
+        {
+            framesUntilRespawn = 60;
+        }
+
         public override void Update()
         {
+            if (IsDead)
+            {
+                framesUntilRespawn--;
+                return;
+            }
+
             const float speed = 8;
             Velocity = speed * Input.GetMovementDirection();
             Position += Velocity;

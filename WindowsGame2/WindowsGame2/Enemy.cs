@@ -139,6 +139,14 @@ namespace GeometryWars
             IsExpired = true;
         }
 
+        public void HandleCollision(Enemy other)
+        {
+            var d = Position - other.Position;
+            Velocity += 10 * d / (d.LengthSquared() + 1);
+        }
+
+        //Defined Types of Enemies!
+
         public static Enemy CreateSeeker(Vector2 position)
         {
             var enemy = new Enemy(Art.Seeker, position);
