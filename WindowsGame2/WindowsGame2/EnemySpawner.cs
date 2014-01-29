@@ -23,8 +23,9 @@ namespace GeometryWars
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
-                //if (rand.Next((int)inverseSpawnChance) == 0)
-                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                if (rand.Next((int)inverseSpawnChance) == 0)
+                    for(int i = 0; i < 2; i++)
+                        EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 if (rand.Next((int)inverseSpawnChance) == 0)
                     EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
             }
