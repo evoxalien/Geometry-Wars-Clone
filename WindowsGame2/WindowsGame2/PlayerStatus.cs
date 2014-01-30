@@ -17,7 +17,7 @@ namespace GeometryWars
     {
         //amount of time it takes, in seconds, for a multiplier to expire
         private const float multiplierExpiryTime = 0.8f;
-        private const int maxMultiplier = 100;
+        private const int maxMultiplier = 500;
 
         public static int Lives { get; private set; }
         public static int Score { get; private set; }
@@ -97,6 +97,10 @@ namespace GeometryWars
             multiplierTimeLeft = multiplierExpiryTime;
             if (Multiplier < maxMultiplier)
                 Multiplier++;
+
+            if (PlayerShip.WeaponLevel < Multiplier / 100)
+                PlayerShip.WeaponLevel = Multiplier / 100;
+            
         }
 
         public static void ResetMultiplier()
@@ -107,6 +111,7 @@ namespace GeometryWars
         public static void RemoveLife()
         {
             Lives--;
+            PlayerShip.WeaponLevel = 1;
         }
     }
 }

@@ -96,13 +96,17 @@ namespace GeometryWars
                 }
 
             //HANDLE COLLISIONS BETWEEN PLAYERS AND ENEMIES
-            for (int i = 0; i < enemies.Count; i++)
+
+            if (Input.GodMode == false)
             {
-                if (enemies[i].IsActive && IsColliding(PlayerShip.Instance, enemies[i]))
+                for (int i = 0; i < enemies.Count; i++)
                 {
-                    PlayerShip.Instance.Kill();
-                    enemies.ForEach(x => x.WasShot());
-                    break;
+                    if (enemies[i].IsActive && IsColliding(PlayerShip.Instance, enemies[i]))
+                    {
+                        PlayerShip.Instance.Kill();
+                        enemies.ForEach(x => x.WasShot());
+                        break;
+                    }
                 }
             }
         }

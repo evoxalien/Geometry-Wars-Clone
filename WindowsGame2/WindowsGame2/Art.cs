@@ -24,11 +24,11 @@ namespace GeometryWars
 
         public static void Load(ContentManager content)
         {
-            Player = content.Load<Texture2D>("Player");
-            Bullet = content.Load<Texture2D>("Bullet");
-            Seeker = content.Load<Texture2D>("Seeker");
-            Wanderer = content.Load<Texture2D>("Wanderer");
-            Pointer = content.Load<Texture2D>("Pointer");
+            Player = content.Load<Texture2D>("Art/Player");
+            Bullet = content.Load<Texture2D>("Art/Bullet");
+            Seeker = content.Load<Texture2D>("Art/Seeker");
+            Wanderer = content.Load<Texture2D>("Art/Wanderer");
+            Pointer = content.Load<Texture2D>("Art/Pointer");
 
             Font = content.Load<SpriteFont>("Font");
         }

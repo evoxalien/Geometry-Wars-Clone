@@ -19,7 +19,7 @@ namespace GeometryWars
         public static int WeaponLevel = 1;
 
         int framesUntilRespawn = 0;
-        const int cooldownFrames = 6;
+        int cooldownFrames = 6;
         int cooldownRemaining = 0;
         public static Random rand = new Random();
         public bool IsDead { get { return framesUntilRespawn > 0; } }
@@ -83,23 +83,36 @@ namespace GeometryWars
 
                 float randomSpread = rand.NextFloat(-0.04f, 0.04f) + rand.NextFloat(-0.04f, 0.04f);
                 Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11F);
+                Vector2 offset;
 
-                
-                Vector2 offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
-                EntityManager.Add(new Bullet(Position + offset, vel));
-
-                offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
-                EntityManager.Add(new Bullet(Position + offset, vel));
-                
-                if (WeaponLevel > 1)
+                if (WeaponLevel == 1)
                 {
-                    offset = Vector2.Transform(new Vector2(30, -4), aimQuat);
+                    cooldownFrames = 4;
+                    offset = Vector2.Transform(new Vector2(35, 0), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+                }
+                else if (WeaponLevel == 2)
+                {
+                    cooldownFrames = 6;
+
+                    offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
 
-                    offset = Vector2.Transform(new Vector2(30, 4), aimQuat);
+                    offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+                }
+                else if (WeaponLevel >= 3)
+                {
+                    cooldownFrames = 3;
+                    offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+
+                    offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
 
                 }
+                
+                
             }
 
             if(cooldownRemaining > 0)

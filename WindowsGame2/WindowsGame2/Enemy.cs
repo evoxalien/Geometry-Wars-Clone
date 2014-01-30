@@ -46,17 +46,26 @@ namespace GeometryWars
             Position += Velocity;
             Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
 
-            Velocity *= 0.8f;
+            Velocity *= 0.75f;
         
         }
 
         IEnumerable<int> FollowPlayer(float acceleration = 1f)
         {
-            while (true)
+            /*while (true)
             {
                 Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
                 if (Velocity != Vector2.Zero)
                     Orientation = Velocity.ToAngle();
+                yield return 0;
+            }*/
+            while (true)
+            {
+                Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
+                if (Velocity != Vector2.Zero)
+                {
+                    Orientation = Velocity.ToAngle();
+                }
                 yield return 0;
             }
         }

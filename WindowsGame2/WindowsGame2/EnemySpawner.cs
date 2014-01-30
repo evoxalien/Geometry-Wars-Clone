@@ -15,33 +15,33 @@ namespace GeometryWars
     static class EnemySpawner
     {
         static Random rand = new Random();
-        static float inverseSpawnChance = 60;
+        static float inverseSpawnChance = 45;
 
         public static void Update()
         {
             
-            if (!PlayerShip.Instance.IsDead && EntityManager.Count < 200)
+            if (!PlayerShip.Instance.IsDead && EntityManager.Count < 400)
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
-                    for (int i = 0; i < PlayerStatus.Lives - 1; i++)
+                    for (int j = 0; j < (int)PlayerStatus.Multiplier / 100 + 1; j++)
                         EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
-
+                    
                     EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 }
                 if (rand.Next((int)inverseSpawnChance) == 0)
-                {
-                    for (int i = 0; i < PlayerStatus.Lives - 3; i++)
+                    {
+                        if (PlayerStatus.Multiplier != 500)
+                            EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
                         EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
-                    EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
-                }
+                    }
             }
 
             // slowly increase the spawn rate as time progresses
-            if (inverseSpawnChance > 5)
-                inverseSpawnChance -= 0.005f;
+            if (inverseSpawnChance > 10)
+                inverseSpawnChance -= 0.0005f;
 
         }
 

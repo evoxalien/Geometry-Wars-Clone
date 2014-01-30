@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using BloomPostprocess;
+
 namespace GeometryWars
 {
     /// <summary>
@@ -22,6 +24,7 @@ namespace GeometryWars
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
         public static GameTime GameTime;
+        BloomComponent bloom;
         public GameRoot()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,6 +35,10 @@ namespace GeometryWars
             graphics.PreferredBackBufferWidth = 1024;
             this.IsFixedTimeStep = false;
             graphics.ApplyChanges();
+
+            bloom = new BloomComponent(this);
+            Components.Add(bloom);
+            bloom.Settings = new BloomSettings(null, 0.05f, 2, 2, 1, 1.5f, 1);
             
         }
 
@@ -99,6 +106,9 @@ namespace GeometryWars
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
+
+            bloom.BeginDraw();
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
@@ -114,14 +124,16 @@ namespace GeometryWars
             EntityManager.Draw(spriteBatch);
             DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
             DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
-            DrawRightAlignedString("Entities: " + EntityManager.Count, 65);
+            if(Input.DevMode)
+                DrawRightAlignedString("Entities: " + EntityManager.Count, 65);
+            if(Input.DevMode && Input.GodMode)
+                DrawRightAlignedString("GOD MODE", 95);
             DrawLeftAlignedString("Lives: " + PlayerStatus.Lives, 5);
             
 
             //Draw Cursor
             spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
             spriteBatch.End();
-
 
 
             base.Draw(gameTime);
