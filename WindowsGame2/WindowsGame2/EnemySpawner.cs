@@ -26,7 +26,7 @@ namespace GeometryWars
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
-                    for (int j = 0; j < (int)PlayerStatus.Multiplier / 100 + 1; j++)
+                    for (int j = 0; j < (int)PlayerStatus.Multiplier / 50 + 1 || j < PlayerShip.WeaponLevel * 2; j++)
                         EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                     
                     EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
@@ -34,8 +34,11 @@ namespace GeometryWars
                 if (rand.Next((int)inverseSpawnChance) == 0)
                     {
                         if (PlayerStatus.Multiplier != 500)
+                        {
+                            for (int j = 0; j < (int)PlayerStatus.Multiplier / 150 || j < PlayerShip.WeaponLevel * 3; j++)
+                                EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
                             EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
-                        EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+                        }
                     }
             }
 

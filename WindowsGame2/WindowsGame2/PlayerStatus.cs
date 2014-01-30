@@ -84,7 +84,7 @@ namespace GeometryWars
             Score += basePoints * Multiplier;
             while (Score >= scoreForExtraLife)
             {
-                scoreForExtraLife *= 5;
+                scoreForExtraLife *= 2;
                 Lives++;
             }
         }
@@ -99,7 +99,7 @@ namespace GeometryWars
                 Multiplier++;
 
             if (PlayerShip.WeaponLevel < Multiplier / 100)
-                PlayerShip.WeaponLevel = Multiplier / 100;
+                PlayerShip.WeaponLevel = Multiplier / 100 + 1;
             
         }
 
