@@ -99,7 +99,7 @@ namespace GeometryWars
                 Multiplier++;
 
             if (PlayerShip.WeaponLevel < Multiplier / 100)
-                PlayerShip.WeaponLevel = Multiplier / 100 + 1;
+                PlayerShip.WeaponLevel = Multiplier / 100;
             
         }
 
