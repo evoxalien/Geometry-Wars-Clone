@@ -19,7 +19,7 @@ namespace GeometryWars
         private int timeUntilStart = 60;
         public bool IsActive { get { return timeUntilStart <= 0; } }
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
-        public int PointValue { get; private set; }
+        public static int PointValue { get; set; }
 
         public Enemy(Texture2D image, Vector2 position)
         {
@@ -166,6 +166,7 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Seeker, position);
             enemy.AddBehaviour(enemy.FollowPlayer());
+            PointValue = 2;
 
             return enemy;
         }
@@ -174,6 +175,7 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveRandomly());
+            PointValue = 1;
 
             return enemy;
         }
@@ -182,8 +184,8 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveInASquare());
-            enemy.AddBehaviour(enemy.FollowPlayer());
-
+            //enemy.AddBehaviour(enemy.FollowPlayer());
+            PointValue = 1;
             return enemy;
         }
     }

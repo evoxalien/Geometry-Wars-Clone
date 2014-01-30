@@ -30,6 +30,7 @@ namespace GeometryWars
 
             graphics.PreferredBackBufferHeight = 812;
             graphics.PreferredBackBufferWidth = 1024;
+            this.IsFixedTimeStep = false;
             graphics.ApplyChanges();
             
         }
@@ -44,7 +45,7 @@ namespace GeometryWars
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            GameTime = new GameTime();
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
         }
@@ -79,12 +80,13 @@ namespace GeometryWars
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GameTime = gameTime;
             Input.Update();
             EnemySpawner.Update();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            GameTime = new GameTime();
+            
             // TODO: Add your update logic here
             PlayerStatus.Update();
             base.Update(gameTime);
@@ -100,9 +102,21 @@ namespace GeometryWars
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
+
+            if (PlayerStatus.isGameOver)
+            {
+                string text = "Game Over\n" +
+                    "Your Score: " + PlayerStatus.Score + "\n" +
+                    "High Score: " + PlayerStatus.HighScore;
+                Vector2 textSize = Art.Font.MeasureString(text);
+                spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
+            }
             EntityManager.Draw(spriteBatch);
             DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
             DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
+            DrawRightAlignedString("Entities: " + EntityManager.Count, 65);
+            DrawLeftAlignedString("Lives: " + PlayerStatus.Lives, 5);
+            
 
             //Draw Cursor
             spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
@@ -117,6 +131,12 @@ namespace GeometryWars
         {
             var textWidth = Art.Font.MeasureString(text).X;
             spriteBatch.DrawString(Art.Font, text, new Vector2(ScreenSize.X - textWidth - 5, y), Color.White);
+        }
+
+        private void DrawLeftAlignedString(string text, float y)
+        {
+            var textWidth = Art.Font.MeasureString(text).X;
+            spriteBatch.DrawString(Art.Font, text, new Vector2(5, y), Color.White);
         }
     }
 }

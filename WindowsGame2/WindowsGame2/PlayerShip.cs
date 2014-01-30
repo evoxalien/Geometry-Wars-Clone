@@ -16,6 +16,8 @@ namespace GeometryWars
     {
         private static PlayerShip instance;
 
+        public static int WeaponLevel = 1;
+
         int framesUntilRespawn = 0;
         const int cooldownFrames = 6;
         int cooldownRemaining = 0;
@@ -47,8 +49,10 @@ namespace GeometryWars
 
         public void Kill()
         {
-            framesUntilRespawn = 60;
+            
             PlayerStatus.RemoveLife();
+            framesUntilRespawn = 60;
+            framesUntilRespawn = PlayerStatus.isGameOver ? 300 : framesUntilRespawn;
             EnemySpawner.Reset();
         }
 
@@ -59,6 +63,8 @@ namespace GeometryWars
                 framesUntilRespawn--;
                 return;
             }
+            if (PlayerStatus.isGameOver)
+                PlayerStatus.Reset();
 
             const float speed = 8;
             Velocity = speed * Input.GetMovementDirection();
@@ -78,11 +84,22 @@ namespace GeometryWars
                 float randomSpread = rand.NextFloat(-0.04f, 0.04f) + rand.NextFloat(-0.04f, 0.04f);
                 Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11F);
 
+                
                 Vector2 offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
                 EntityManager.Add(new Bullet(Position + offset, vel));
 
                 offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                 EntityManager.Add(new Bullet(Position + offset, vel));
+                
+                if (WeaponLevel > 1)
+                {
+                    offset = Vector2.Transform(new Vector2(30, -4), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+
+                    offset = Vector2.Transform(new Vector2(30, 4), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+
+                }
             }
 
             if(cooldownRemaining > 0)
