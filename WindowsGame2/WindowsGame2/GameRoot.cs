@@ -55,6 +55,9 @@ namespace GeometryWars
             GameTime = new GameTime();
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Sound.Music);
+
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace GeometryWars
 
             // TODO: use this.Content to load your game content here
             Art.Load(Content);
-
+            Sound.Load(Content);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -121,7 +124,7 @@ namespace GeometryWars
                 Vector2 textSize = Art.Font.MeasureString(text);
                 spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
             }
-            EntityManager.Draw(spriteBatch);
+            
             DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
             DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
             if(Input.DevMode)
@@ -132,6 +135,7 @@ namespace GeometryWars
             
 
             //Draw Cursor
+            EntityManager.Draw(spriteBatch);
             spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
             spriteBatch.End();
 

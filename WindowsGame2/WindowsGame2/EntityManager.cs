@@ -17,11 +17,15 @@ namespace GeometryWars
         static List<Entity> entities = new List<Entity>();
         static List<Enemy> enemies = new List<Enemy>();
         static List<Bullet> bullets = new List<Bullet>();
+        static List<BlackHole> blackHoles = new List<BlackHole>();
+
+        public static IEnumerable<BlackHole> BlackHoles { get { return blackHoles; } }
 
         static bool isUpdating;
         static List<Entity> addedEntities = new List<Entity>();
 
         public static int Count { get { return entities.Count; } }
+        public static int BlackHoleCount { get { return blackHoles.Count; } }
 
         private static void AddEntity(Entity entity)
         {
@@ -30,6 +34,8 @@ namespace GeometryWars
                 bullets.Add(entity as Bullet);
             else if (entity is Enemy)
                 enemies.Add(entity as Enemy);
+            else if (entity is BlackHole)
+                blackHoles.Add(entity as BlackHole);
         }
 
         public static void Add(Entity entity)
@@ -60,7 +66,15 @@ namespace GeometryWars
             entities = entities.Where(x => !x.IsExpired).ToList();
             bullets = bullets.Where(x => !x.IsExpired).ToList();
             enemies = enemies.Where(x => !x.IsExpired).ToList();
+            blackHoles = blackHoles.Where(x => !x.IsExpired).ToList();
 
+        }
+
+        // Used with Blackholes!
+
+        public static System.Collections.IEnumerable GetNearbyEntities(Vector2 position, float radius)
+        {
+            return entities.Where(x => Vector2.DistanceSquared(position, x.Position) < radius * radius);
         }
 
         //Collision!
@@ -105,6 +119,33 @@ namespace GeometryWars
                     {
                         PlayerShip.Instance.Kill();
                         enemies.ForEach(x => x.WasShot());
+                        break;
+                    }
+                }
+            }
+
+            // handle collisions with black holes
+            for (int i = 0; i < blackHoles.Count; i++)
+            {
+                for (int j = 0; j < enemies.Count; j++)
+                    if (enemies[j].IsActive && IsColliding(blackHoles[i], enemies[j]))
+                        enemies[j].IsExpired = true;
+
+                for (int j = 0; j < bullets.Count; j++)
+                {
+                    if (IsColliding(blackHoles[i], bullets[j]))
+                    {
+                        bullets[j].IsExpired = true;
+                        blackHoles[i].WasShot();
+                    }
+                }
+                if (Input.GodMode == false)
+                {
+                    if (IsColliding(PlayerShip.Instance, blackHoles[i]))
+                    {
+                        PlayerShip.Instance.Kill();
+                        enemies.ForEach(x => x.IsExpired = true);
+                        blackHoles.ForEach(x => x.Kill());
                         break;
                     }
                 }

@@ -16,7 +16,7 @@ namespace GeometryWars
     {
         private static PlayerShip instance;
 
-        public static int WeaponLevel = 1;
+        public static int WeaponLevel = 0;
 
         int framesUntilRespawn = 0;
         int cooldownFrames = 6;
@@ -49,11 +49,14 @@ namespace GeometryWars
 
         public void Kill()
         {
-            
+
+            PlayerShip.WeaponLevel = 0;            
             PlayerStatus.RemoveLife();
+            Position = GameRoot.ScreenSize / 2;
             framesUntilRespawn = 60;
             framesUntilRespawn = PlayerStatus.isGameOver ? 300 : framesUntilRespawn;
             EnemySpawner.Reset();
+     
         }
 
         public override void Update()
@@ -85,13 +88,14 @@ namespace GeometryWars
                 Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11F);
                 Vector2 offset;
 
-                if (WeaponLevel == 1)
+                if (WeaponLevel == 0)
                 {
                     cooldownFrames = 4;
                     offset = Vector2.Transform(new Vector2(35, 0), aimQuat);
-                    EntityManager.Add(new Bullet(Position + offset, vel));
+                    EntityManager.Add(new Bullet(Position + offset , vel + (Velocity / 2)));
+                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                 }
-                else if (WeaponLevel == 2)
+                else if (WeaponLevel == 1)
                 {
                     cooldownFrames = 6;
 
@@ -100,8 +104,9 @@ namespace GeometryWars
 
                     offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
+                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                 }
-                else if (WeaponLevel >= 3)
+                else if (WeaponLevel >= 2)
                 {
                     cooldownFrames = 3;
                     offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
@@ -109,6 +114,7 @@ namespace GeometryWars
 
                     offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
+                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 
                 }
                 
