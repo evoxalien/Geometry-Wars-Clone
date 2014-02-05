@@ -23,9 +23,7 @@ namespace GeometryWars
         public static GameRoot Instance { get; private set; }
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
-        public static GameTime GameTime; 
-        public static ParticleManager<ParticleState> ParticleManager { get; private set; }
- 
+        public static GameTime GameTime;
         BloomComponent bloom;
         public GameRoot()
         {
@@ -59,7 +57,7 @@ namespace GeometryWars
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Sound.Music);
-            ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
+
         }
 
         /// <summary>
@@ -103,7 +101,6 @@ namespace GeometryWars
             PlayerStatus.Update();
             base.Update(gameTime);
             EntityManager.Update();
-            ParticleManager.Update();
         }
 
         /// <summary>
@@ -142,9 +139,6 @@ namespace GeometryWars
             spriteBatch.Draw(Art.Pointer, Input.MousePosition, Color.White);
             spriteBatch.End();
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            ParticleManager.Draw();
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
