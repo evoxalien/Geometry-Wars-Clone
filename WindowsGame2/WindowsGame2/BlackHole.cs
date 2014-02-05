@@ -54,6 +54,9 @@ namespace GeometryWars
                     entity.Velocity += dPos.ScaleTo(MathHelper.Lerp(2, 0, length / 250f));
                 }
             }
+
+
+
             Position += Velocity;
             Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
             //Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
