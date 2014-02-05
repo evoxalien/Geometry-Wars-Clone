@@ -26,7 +26,7 @@ namespace GeometryWars
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
 
-        BloomComponent bloom;
+        //BloomComponent bloom;
         public GameRoot()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -38,9 +38,9 @@ namespace GeometryWars
             this.IsFixedTimeStep = false;
             graphics.ApplyChanges();
 
-            bloom = new BloomComponent(this);
-            Components.Add(bloom);
-            bloom.Settings = new BloomSettings(null, 0.05f, 2, 2, 1, 1.5f, 1);
+            //bloom = new BloomComponent(this);
+            //Components.Add(bloom);
+            //bloom.Settings = new BloomSettings(null, 0.05f, 2, 2, 1, 1.5f, 1);
             
         }
 
@@ -58,7 +58,7 @@ namespace GeometryWars
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Sound.Music);
+            //MediaPlayer.Play(Sound.Music);
             ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
  
         }
@@ -115,7 +115,7 @@ namespace GeometryWars
         {
 
 
-            bloom.BeginDraw();
+            //bloom.BeginDraw();
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);

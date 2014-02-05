@@ -81,9 +81,9 @@ namespace BloomPostprocess
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            bloomExtractEffect = Game.Content.Load<Effect>("Bloom/BloomExtract");
-			bloomCombineEffect = Game.Content.Load<Effect>("Bloom/BloomCombine");
-			gaussianBlurEffect = Game.Content.Load<Effect>("Bloom/GaussianBlur");
+            //bloomExtractEffect = Game.Content.Load<Effect>("Bloom/BloomExtract");
+			//bloomCombineEffect = Game.Content.Load<Effect>("Bloom/BloomCombine");
+			//gaussianBlurEffect = Game.Content.Load<Effect>("Bloom/GaussianBlur");
 
             // Look up the resolution and format of our main backbuffer.
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
