@@ -1,0 +1,26 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="GeoWars\GameRoot.cs">
+    <Files>
+      <File FileName="GeoWars\Enemy.cs" Line="166" Column="34" />
+      <File FileName="GeoWars\Art.cs" Line="1" Column="1" />
+      <File FileName="GeoWars\AppMain.cs" Line="13" Column="3" />
+      <File FileName="GeoWars\GameRoot.cs" Line="132" Column="6" />
+      <File FileName="c:\Users\John\Documents\GitHub\MonoGame\MonoGame.Framework\Content\ContentManager.cs" Line="329" Column="53" />
+      <File FileName="c:\Users\John\Documents\GitHub\MonoGame\MonoGame.Framework\PSSuite\Graphics\SpriteBatcher.cs" Line="156" Column="4" />
+      <File FileName="GeoWars\EntityManager.cs" Line="1" Column="1" />
+      <File FileName="GeoWars\Entity.cs" Line="1" Column="1" />
+      <File FileName="GeoWars\Bullet.cs" Line="39" Column="38" />
+      <File FileName="GeoWars\PlayerShip.cs" Line="14" Column="2" />
+      <File FileName="GeoWars\EnemySpawner.cs" Line="24" Column="71" />
+      <File FileName="GeoWars\ParticleManager.cs" Line="22" Column="50" />
+      <File FileName="GeoWars\ParticleState.cs" Line="31" Column="34" />
+      <File FileName="GeoWars\BlackHole.cs" Line="74" Column="34" />
+      <File FileName="GeoWars\PlayerStatus.cs" Line="64" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

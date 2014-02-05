@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BA55284D-2BB5-4AE8-99FE-481DDCE07FCF}</ProjectGuid>
+    <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GeoWars</RootNamespace>
+    <AssemblyName>GeoWars</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Sce.PlayStation.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppMain.cs" />
+    <Compile Include="Art.cs" />
+    <Compile Include="BlackHole.cs" />
+    <Compile Include="BloomComponent.cs" />
+    <Compile Include="BloomSettings.cs" />
+    <Compile Include="Bullet.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="EnemySpawner.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="EntityManager.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GameRoot.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="MathUtil.cs" />
+    <Compile Include="ParticleManager.cs" />
+    <Compile Include="ParticleState.cs" />
+    <Compile Include="PlayerShip.cs" />
+    <Compile Include="PlayerStatus.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Sound.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ShaderProgram Include="shaders\Simple.fcg" />
+    <ShaderProgram Include="shaders\Simple.vcg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PsmMetadata Include="app.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Game.ico" />
+    <None Include="GeometryWars.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameThumbnail.png" />
+    <Content Include="Content\Art\BlackHole.xnb" />
+    <Content Include="Content\Art\Bullet.xnb" />
+    <Content Include="Content\Art\Glow.xnb" />
+    <Content Include="Content\Art\LineParticle.xnb" />
+    <Content Include="Content\Art\Player.xnb" />
+    <Content Include="Content\Art\Pointer.xnb" />
+    <Content Include="Content\Art\Seeker.xnb" />
+    <Content Include="Content\Art\Wanderer.xnb" />
+    <Content Include="Content\Bloom\BloomCombine.xnb" />
+    <Content Include="Content\Bloom\BloomExtract.xnb" />
+    <Content Include="Content\Bloom\GaussianBlur.xnb" />
+    <Content Include="Content\Sound\explosion-01.xnb" />
+    <Content Include="Content\Sound\explosion-02.xnb" />
+    <Content Include="Content\Sound\explosion-03.xnb" />
+    <Content Include="Content\Sound\explosion-04.xnb" />
+    <Content Include="Content\Sound\explosion-05.xnb" />
+    <Content Include="Content\Sound\explosion-06.xnb" />
+    <Content Include="Content\Sound\explosion-07.xnb" />
+    <Content Include="Content\Sound\explosion-08.xnb" />
+    <Content Include="Content\Sound\Music.wma" />
+    <Content Include="Content\Sound\Music.xnb" />
+    <Content Include="Content\Sound\shoot-01.xnb" />
+    <Content Include="Content\Sound\shoot-02.xnb" />
+    <Content Include="Content\Sound\shoot-03.xnb" />
+    <Content Include="Content\Sound\shoot-04.xnb" />
+    <Content Include="Content\Sound\spawn-01.xnb" />
+    <Content Include="Content\Sound\spawn-02.xnb" />
+    <Content Include="Content\Sound\spawn-03.xnb" />
+    <Content Include="Content\Sound\spawn-04.xnb" />
+    <Content Include="Content\Sound\spawn-05.xnb" />
+    <Content Include="Content\Sound\spawn-06.xnb" />
+    <Content Include="Content\Sound\spawn-07.xnb" />
+    <Content Include="Content\Sound\spawn-08.xnb" />
+    <Content Include="Content\Font.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.PSMobile.csproj">
+      <Project>{EA26E76F-FDFE-4A8C-B5A3-C3B5761E28F9}</Project>
+      <Name>MonoGame.Framework.PSMobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.PSMobile.csproj">
+      <Project>{167676EE-E2D5-440A-BB2B-EFBD02BC8493}</Project>
+      <Name>Lidgren.Network.PSMobile</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Content\Art\" />
+    <Folder Include="Content\Bloom\" />
+    <Folder Include="Content\Sound\" />
+  </ItemGroup>
+</Project>
