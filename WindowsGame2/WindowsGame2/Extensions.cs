@@ -34,5 +34,6 @@ namespace GeometryWars
             return (float)rand.NextDouble() * (maxValue - minValue) + minValue;
         }
 
+
     }
 }
