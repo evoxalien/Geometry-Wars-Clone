@@ -16,7 +16,7 @@ namespace GeometryWars
     {
         static Random rand = new Random();
         static float inverseSpawnChance = 45;
-        static float inverseBlackHoleChance = 60;
+        static float inverseBlackHoleChance = 600;
 
         public static void Update()
         {
@@ -41,7 +41,7 @@ namespace GeometryWars
                         //EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
                     }
                 }
-                if (EntityManager.BlackHoleCount < 10 && rand.Next((int)inverseBlackHoleChance) == 0)
+                if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
                     EntityManager.Add(new BlackHole(GetSpawnPosition()));
             }
 

@@ -85,6 +85,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="ParticleManager.cs" />
+    <Compile Include="ParticleState.cs" />
     <Compile Include="PlayerShip.cs" />
     <Compile Include="PlayerStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
