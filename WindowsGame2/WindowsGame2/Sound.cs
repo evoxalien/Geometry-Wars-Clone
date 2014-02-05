@@ -26,7 +26,7 @@ namespace GeometryWars
 
         public static void Load(ContentManager content)
         {
-            Music = content.Load<Song>("Sound/Music");
+            //Music = content.Load<Song>("Sound/Music");
 
             // These linq expressions are just a fancy way loading all sounds of each category into an array.
             explosions = Enumerable.Range(1, 8).Select(x => content.Load<SoundEffect>("Sound/explosion-0" + x)).ToArray();
