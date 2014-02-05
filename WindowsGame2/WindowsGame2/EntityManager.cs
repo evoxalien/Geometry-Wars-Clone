@@ -14,6 +14,7 @@ namespace GeometryWars
 {
     static class EntityManager
     {
+        private static Random rand = new Random();
         static List<Entity> entities = new List<Entity>();
         static List<Enemy> enemies = new List<Enemy>();
         static List<Bullet> bullets = new List<Bullet>();
@@ -106,6 +107,8 @@ namespace GeometryWars
                     {
                         enemies[i].WasShot();
                         bullets[j].IsExpired = true;
+                        for (int p = 0; p < 30; p++)
+                            GameRoot.ParticleManager.CreateParticle(Art.LineParticle, bullets[j].Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
                     }
                 }
 
@@ -119,7 +122,9 @@ namespace GeometryWars
                     {
                         PlayerShip.Instance.Kill();
                         enemies.ForEach(x => x.WasShot());
+                        blackHoles.ForEach(x => x.Kill());
                         break;
+
                     }
                 }
             }
@@ -137,6 +142,9 @@ namespace GeometryWars
                     {
                         bullets[j].IsExpired = true;
                         blackHoles[i].WasShot();
+                        for (int p = 0; p < 30; p++)
+                            GameRoot.ParticleManager.CreateParticle(Art.LineParticle, bullets[j].Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
+                    
                     }
                 }
                 if (Input.GodMode == false)

@@ -20,6 +20,7 @@ namespace GeometryWars
         public static Texture2D Bullet { get; private set; }
         public static Texture2D Pointer { get; private set; }
         public static Texture2D BlackHole { get; private set; }
+        public static Texture2D LineParticle { get; private set; }
 
         public static SpriteFont Font { get; private set; }
 
@@ -31,6 +32,7 @@ namespace GeometryWars
             Wanderer = content.Load<Texture2D>("Art/Wanderer");
             Pointer = content.Load<Texture2D>("Art/Pointer");
             BlackHole = content.Load<Texture2D>("Art/BlackHole");
+            LineParticle = content.Load<Texture2D>("Art/LineParticle");
 
 
             Font = content.Load<SpriteFont>("Font");

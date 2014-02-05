@@ -23,29 +23,43 @@ namespace GeometryWars
             image = Art.BlackHole;
             Position = position;
             Radius = image.Width / 2f;
+            Velocity = new Vector2(0.0f, 0.0f);
         }
 
         public override void Update()
         {
+            Console.WriteLine(Velocity.X);
             var entities = EntityManager.GetNearbyEntities(Position, 250);
 
-            foreach (var entity in entities)
+            foreach (Entity entity in entities)
             {
-                Entity entity1 = (Entity)entity;
-                if (entity1 is Enemy && !(entity1 as Enemy).IsActive)
+                if (entity is Enemy && !(entity as Enemy).IsActive)
                     continue;
 
                 // bullets are repelled by black holes and everything else is attracted
-                if (entity1 is Bullet)
-                    entity1.Velocity += (entity1.Position - Position).ScaleTo(0.3f);
-                else
+                if (entity is Bullet)
                 {
-                    var dPos = Position - entity1.Position;
+                    entity.Velocity += (entity.Position - Position).ScaleTo(0.3f);
+                    //var d = Position - entity1.Position;
+                    //Velocity += 10 * d / (d.LengthSquared() + 1);
+
+                    Velocity += (Position - entity.Position).ScaleTo(0.0001f);
+
+                }
+                else if (!(entity is BlackHole))
+                {
+                    var dPos = Position - entity.Position;
                     var length = dPos.Length();
 
-                    entity1.Velocity += dPos.ScaleTo(MathHelper.Lerp(2, 0, length / 250f));
+                    entity.Velocity += dPos.ScaleTo(MathHelper.Lerp(2, 0, length / 250f));
                 }
             }
+            Position += Velocity;
+            Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
+            //Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
+
+            //Velocity *= 0.75f;
+            
         }
 
         public void WasShot()
@@ -53,8 +67,20 @@ namespace GeometryWars
             hitpoints--;
             if (hitpoints < 0)
                 IsExpired = true;
-        }
 
+            for (int i = 0; i < 120; i++)
+            {
+                float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
+                var state = new ParticleState()
+                {
+                    Velocity = rand.NextVector2(speed, speed),
+                    Type = ParticleType.Enemy,
+                    LengthMultiplier = 1f
+                };
+
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
+            }
+        }
         public void Kill()
         {
             hitpoints = 0;
@@ -64,7 +90,7 @@ namespace GeometryWars
         public override void Draw(SpriteBatch spriteBatch)
         {
             float scale = 1 + 0.1f * (float)Math.Sin(10 * GameRoot.GameTime.TotalGameTime.TotalSeconds);
-        spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, scale, 0, 0);
+            spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, scale, 0, 0);
         }
 
         

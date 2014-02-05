@@ -19,8 +19,8 @@ namespace GeometryWars
         private int timeUntilStart = 60;
         public bool IsActive { get { return timeUntilStart <= 0; } }
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
-        public static int PointValue { get; set; }
-
+        private int PointValue { get; set; }
+        private int EnemyType = 0;
         public Enemy(Texture2D image, Vector2 position)
         {
             this.image = image;
@@ -162,6 +162,24 @@ namespace GeometryWars
             PlayerStatus.IncreaseMultiplier();
             //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
             IsExpired = true;
+
+            for (int i = 0; i < 120; i++)
+            {
+                float speed = 6f * (1f - 1 / rand.NextFloat(1f, 10f));
+                var state = new ParticleState()
+                {
+                    Velocity = rand.NextVector2(speed, speed),
+                    Type = ParticleType.Enemy,
+                    LengthMultiplier = 1f
+                };
+                if (EnemyType == 1)
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 255, 128, 155), 190, new Vector2(1.0f), state);
+                else if (EnemyType == 2)
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 128, 128, 155), 190, new Vector2(1.0f), state);
+                else
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, new Vector2(1.0f), state);
+            }
+
         }
 
         public void HandleCollision(Enemy other)
@@ -176,8 +194,9 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Seeker, position);
             enemy.AddBehaviour(enemy.FollowPlayer());
-            PointValue = 2;
-
+            enemy.PointValue = 2;
+            enemy.EnemyType = 1;
+             
             return enemy;
         }
 
@@ -185,7 +204,8 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveRandomly());
-            PointValue = 1;
+            enemy.PointValue = 1;
+            enemy.EnemyType = 2;
 
             return enemy;
         }
@@ -195,7 +215,9 @@ namespace GeometryWars
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveInASquare());
             //enemy.AddBehaviour(enemy.FollowPlayer());
-            PointValue = 1;
+            enemy.PointValue = 1;
+            enemy.EnemyType = 3;
+
             return enemy;
         }
     }

@@ -14,6 +14,8 @@ namespace GeometryWars
 {
     class Bullet : Entity
     {
+        private static Random rand = new Random();
+
         public Bullet(Vector2 position, Vector2 velocity)
         {
             image = Art.Bullet;
@@ -32,7 +34,11 @@ namespace GeometryWars
 
             //delete bullets that go off-screen
             if (!GameRoot.Viewport.Bounds.Contains(Position.ToPoint()))
+            {
                 IsExpired = true;
+                for (int i = 0; i < 30; i++)
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
+            }
         }
 
     }

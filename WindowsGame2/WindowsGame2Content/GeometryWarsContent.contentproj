@@ -199,7 +199,7 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Art\Laser.png">
-      <Name>Laser</Name>
+      <Name>LineParticle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

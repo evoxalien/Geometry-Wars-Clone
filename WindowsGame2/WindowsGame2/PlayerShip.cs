@@ -52,9 +52,23 @@ namespace GeometryWars
 
             PlayerShip.WeaponLevel = 0;            
             PlayerStatus.RemoveLife();
-            Position = GameRoot.ScreenSize / 2;
             framesUntilRespawn = 60;
             framesUntilRespawn = PlayerStatus.isGameOver ? 300 : framesUntilRespawn;
+
+            for (int i = 0; i < 1200; i++)
+            {
+                float speed = 18f * (1f - 1 / rand.NextFloat(1f, 10f));
+                Color color = Color.Lerp(Color.White, Color.Yellow, rand.NextFloat(0, 1));
+                var state = new ParticleState()
+                {
+                    Velocity = rand.NextVector2(speed, speed),
+                    Type = ParticleType.None,
+                    LengthMultiplier = 1
+                };
+
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, color, 190, new Vector2(1.0f,1.0f), state);
+            }
+            Position = GameRoot.ScreenSize / 2;
             EnemySpawner.Reset();
      
         }
