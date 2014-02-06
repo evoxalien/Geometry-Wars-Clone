@@ -134,8 +134,11 @@ namespace GeometryWars
             {
                 for (int j = 0; j < enemies.Count; j++)
                     if (enemies[j].IsActive && IsColliding(blackHoles[i], enemies[j]))
+                    {
+                        enemies[j].Effect();
                         enemies[j].IsExpired = true;
 
+                    }
                 for (int j = 0; j < bullets.Count; j++)
                 {
                     if (IsColliding(blackHoles[i], bullets[j]))

@@ -25,6 +25,7 @@ namespace GeometryWars
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
+        public static Grid grid;
 
         BloomComponent bloom;
         public GameRoot()
@@ -33,8 +34,8 @@ namespace GeometryWars
             Content.RootDirectory = "Content";
             Instance = this;
 
-            graphics.PreferredBackBufferHeight = 812;
-            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1600;
             this.IsFixedTimeStep = false;
             graphics.ApplyChanges();
 
@@ -53,13 +54,19 @@ namespace GeometryWars
         /// </summary>
         protected override void Initialize()
         {
+            float AspectRatioW = Viewport.Width / Viewport.Height;
+            float AspectRatioH = Viewport.Height / Viewport.Width;
+            int gridScale = 35;
+            //Vector2 gridSpace = new Vector2(Viewport.Width/gridScale,Viewport.Height/(gridScale/AspectRatioW));
+            Vector2 gridSpace = new Vector2(gridScale, gridScale);
             // TODO: Add your initialization logic here
             GameTime = new GameTime();
+            grid = new Grid(new Rectangle((int)(-gridSpace.X),(int) (-gridSpace.Y), Viewport.Width + (int)(gridSpace.X), Viewport.Height + (int)(gridSpace.Y)), new Vector2(gridSpace.X, gridSpace.Y));
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Sound.Music);
-            ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
+            //MediaPlayer.Play(Sound.Music);
+            ParticleManager = new ParticleManager<ParticleState>(1024, ParticleState.UpdateParticle);
  
         }
 
@@ -101,6 +108,7 @@ namespace GeometryWars
                 this.Exit();
             
             // TODO: Add your update logic here
+            grid.Update();
             PlayerStatus.Update();
             base.Update(gameTime);
             EntityManager.Update();
@@ -117,8 +125,10 @@ namespace GeometryWars
 
             bloom.BeginDraw();
             GraphicsDevice.Clear(Color.Black);
+            
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
+            grid.Draw(spriteBatch);
             ParticleManager.Draw(spriteBatch);
             spriteBatch.End();
 

@@ -156,14 +156,9 @@ namespace GeometryWars
             }
         }
 
-        public void WasShot()
+        public void Effect()
         {
-            PlayerStatus.AddPoints(PointValue);
-            PlayerStatus.IncreaseMultiplier();
-            //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
-            IsExpired = true;
-
-            for (int i = 0; i < 120; i++)
+            for (int i = 0; i < 20; i++)
             {
                 float speed = 6f * (1f - 1 / rand.NextFloat(1f, 10f));
                 var state = new ParticleState()
@@ -172,6 +167,7 @@ namespace GeometryWars
                     Type = ParticleType.Enemy,
                     LengthMultiplier = 1f
                 };
+                GameRoot.grid.ApplyExplosiveForce(2.5f, Position, 75);
                 if (EnemyType == 1)
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 255, 128, 155), 190, new Vector2(1.0f), state);
                 else if (EnemyType == 2)
@@ -179,6 +175,16 @@ namespace GeometryWars
                 else
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, new Vector2(1.0f), state);
             }
+        }
+
+        public void WasShot()
+        {
+            PlayerStatus.AddPoints(PointValue);
+            PlayerStatus.IncreaseMultiplier();
+            //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
+            IsExpired = true;
+
+            Effect();
 
         }
 

@@ -21,6 +21,7 @@ namespace GeometryWars
         public static Texture2D Pointer { get; private set; }
         public static Texture2D BlackHole { get; private set; }
         public static Texture2D LineParticle { get; private set; }
+        public static Texture2D Pixel { get; private set; }
 
         public static SpriteFont Font { get; private set; }
 
@@ -33,6 +34,9 @@ namespace GeometryWars
             Pointer = content.Load<Texture2D>("Art/Pointer");
             BlackHole = content.Load<Texture2D>("Art/BlackHole");
             LineParticle = content.Load<Texture2D>("Art/LineParticle");
+            
+            Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);
+            Pixel.SetData(new[] { Color.White });
 
 
             Font = content.Load<SpriteFont>("Font");

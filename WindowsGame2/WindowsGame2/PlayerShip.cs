@@ -45,11 +45,13 @@ namespace GeometryWars
         {
             if(!IsDead)
                 base.Draw(spriteBatch);
+
+            GameRoot.grid.ApplyExplosiveForce(Velocity.Length()/2, Position, 75);
         }
 
         public void Kill()
         {
-
+            
             PlayerShip.WeaponLevel = 0;            
             PlayerStatus.RemoveLife();
             framesUntilRespawn = 60;
@@ -68,6 +70,7 @@ namespace GeometryWars
 
                 GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, color, 190, new Vector2(1.0f,1.0f), state);
             }
+            GameRoot.grid.ApplyExplosiveForce(100f, Position, 450);
             Position = GameRoot.ScreenSize / 2;
             EnemySpawner.Reset();
      

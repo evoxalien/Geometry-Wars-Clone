@@ -27,6 +27,7 @@ namespace GeometryWars
 
         public override void Update()
         {
+            GameRoot.grid.ApplyExplosiveForce(0.5f * Velocity.Length(), Position, 80);
             if (Velocity.LengthSquared() > 0)
                 Orientation = Velocity.ToAngle();
 
@@ -36,7 +37,7 @@ namespace GeometryWars
             if (!GameRoot.Viewport.Bounds.Contains(Position.ToPoint()))
             {
                 IsExpired = true;
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 10; i++)
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
             }
         }

@@ -17,6 +17,7 @@ namespace GeometryWars
         private static Random rand = new Random();
 
         private int hitpoints = 10;
+        private int PointValue;
 
         public BlackHole(Vector2 position)
         {
@@ -24,11 +25,14 @@ namespace GeometryWars
             Position = position;
             Radius = image.Width / 2f;
             Velocity = new Vector2(0.0f, 0.0f);
+            PointValue = 5;
         }
 
         public override void Update()
         {
-            Console.WriteLine(Velocity.X);
+            GameRoot.grid.ApplyImplosiveForce(2.5f, Position, 250);
+            //GameRoot.grid.ApplyImplosiveForce((float)Math.Sin(sprayAngle / 2) * 10 + 20, Position, 200);
+            //Console.WriteLine(Velocity.X);
             var entities = EntityManager.GetNearbyEntities(Position, 250);
 
             foreach (Entity entity in entities)
@@ -43,7 +47,7 @@ namespace GeometryWars
                     //var d = Position - entity1.Position;
                     //Velocity += 10 * d / (d.LengthSquared() + 1);
 
-                    Velocity += (Position - entity.Position).ScaleTo(0.0001f);
+                    Velocity += (Position - entity.Position).ScaleTo(0.01f);
 
                 }
                 else if (!(entity is BlackHole))
@@ -59,6 +63,13 @@ namespace GeometryWars
 
             Position += Velocity;
             Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
+            Velocity *= 0.95f;
+            var bounds = GameRoot.Viewport.Bounds;
+            bounds.Inflate(-image.Width, -image.Height);
+
+            //if the enemy is outside the bounds, make it move away from the edge
+            if (!bounds.Contains(Position.ToPoint()))
+                Velocity = -Velocity;
             //Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
 
             //Velocity *= 0.75f;
@@ -67,11 +78,17 @@ namespace GeometryWars
 
         public void WasShot()
         {
+
+            
             hitpoints--;
             if (hitpoints < 0)
                 IsExpired = true;
 
-            for (int i = 0; i < 120; i++)
+            PlayerStatus.AddPoints(PointValue);
+            for(int i = 0; i < PointValue; i++)
+                PlayerStatus.IncreaseMultiplier();
+
+            for (int i = 0; i < 40; i++)
             {
                 float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
                 var state = new ParticleState()
@@ -94,6 +111,7 @@ namespace GeometryWars
         {
             float scale = 1 + 0.1f * (float)Math.Sin(10 * GameRoot.GameTime.TotalGameTime.TotalSeconds);
             spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, scale, 0, 0);
+            
         }
 
         
