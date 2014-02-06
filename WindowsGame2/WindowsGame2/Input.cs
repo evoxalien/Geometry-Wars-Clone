@@ -46,8 +46,6 @@ namespace GeometryWars
 
             Input.GodModeButtonPressed();
             Input.DevModeButtonPressed();
-            Input.DevModeGridButtonPressed();
-            Input.DevModeParticlesButtonPressed();
         }
         public static bool WasKeyPressed(Keys key)
         {
@@ -130,18 +128,19 @@ namespace GeometryWars
         {
             if (WasButtonPressed(Buttons.X) || WasKeyPressed(Keys.X))
                 DevMode = !DevMode;
-        }
-
-        public static void DevModeParticlesButtonPressed()
-        {
             if (WasButtonPressed(Buttons.DPadLeft))
                 DevModeParticles = !DevModeParticles;
+            if (WasButtonPressed(Buttons.DPadRight))
+                DevModeGrid = !DevModeGrid;
+
+            if (WasButtonPressed(Buttons.DPadUp))
+                PlayerShip.WeaponLevel++;
+            if (WasButtonPressed(Buttons.DPadDown) && !PlayerShip.WeaponLevel <= 0)
+                PlayerShip.WeaponLevel--;
+
         }
 
-        public static void DevModeGridButtonPressed()
-        {
-            if (WasButtonPressed(Buttons.DPadUp))
-                DevModeGrid = !DevModeGrid;
-        }
+
+
     }
 }
