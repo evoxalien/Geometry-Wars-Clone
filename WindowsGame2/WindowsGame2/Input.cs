@@ -134,13 +134,13 @@ namespace GeometryWars
 
         public static void DevModeParticlesButtonPressed()
         {
-            if (WasButtonPressed(Buttons.X) || WasKeyPressed(Keys.X))
+            if (WasButtonPressed(Buttons.DPadLeft))
                 DevModeParticles = !DevModeParticles;
         }
 
         public static void DevModeGridButtonPressed()
         {
-            if (WasButtonPressed(Buttons.DPadUp) || WasKeyPressed(Keys.Up))
+            if (WasButtonPressed(Buttons.DPadUp))
                 DevModeGrid = !DevModeGrid;
         }
     }
