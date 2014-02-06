@@ -19,6 +19,8 @@ namespace GeometryWars
         private static GamePadState gamepadState, lastGamepadState;
         public static bool GodMode = false;
         public static bool DevMode = false;
+        public static bool DevModeParticles = false;
+        public static bool DevModeGrid = false;
 
         private static bool isAimingWithMouse = false;
 
@@ -42,9 +44,10 @@ namespace GeometryWars
             else if (MousePosition != new Vector2(lastMouseState.X, lastMouseState.Y))
                 isAimingWithMouse = true;
 
-
-            Input.DevModeButtonPressed();
             Input.GodModeButtonPressed();
+            Input.DevModeButtonPressed();
+            Input.DevModeGridButtonPressed();
+            Input.DevModeParticlesButtonPressed();
         }
         public static bool WasKeyPressed(Keys key)
         {
@@ -127,6 +130,18 @@ namespace GeometryWars
         {
             if (WasButtonPressed(Buttons.X) || WasKeyPressed(Keys.X))
                 DevMode = !DevMode;
+        }
+
+        public static void DevModeParticlesButtonPressed()
+        {
+            if (WasButtonPressed(Buttons.X) || WasKeyPressed(Keys.X))
+                DevModeParticles = !DevModeParticles;
+        }
+
+        public static void DevModeGridButtonPressed()
+        {
+            if (WasButtonPressed(Buttons.DPadUp) || WasKeyPressed(Keys.Up))
+                DevModeGrid = !DevModeGrid;
         }
     }
 }
