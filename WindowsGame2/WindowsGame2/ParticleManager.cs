@@ -16,7 +16,7 @@ namespace GeometryWars
     {
         private Action<Particle> updateParticle;
         private CircularParticleArray particleList;
-
+        public int ParticleCount;
         public ParticleManager(int capacity, Action<Particle> updateParticle)
         {
             this.updateParticle = updateParticle;
@@ -38,7 +38,7 @@ namespace GeometryWars
 
                 //Now its time to shift the deleted ones to the back of the list
                 Swap(particleList, i - removalCount, i);
-
+                ParticleCount = particleList.Count;
                 // if the particle has expired, delete this particle
                 if (particle.PercentLife < 0)
                     removalCount++;

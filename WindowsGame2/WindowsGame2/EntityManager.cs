@@ -131,25 +131,49 @@ namespace GeometryWars
 
             // handle collisions with black holes
             for (int i = 0; i < blackHoles.Count; i++)
-            {
+            {//Colliding with enemies
                 for (int j = 0; j < enemies.Count; j++)
                     if (enemies[j].IsActive && IsColliding(blackHoles[i], enemies[j]))
                     {
                         enemies[j].Effect();
                         enemies[j].IsExpired = true;
+                        blackHoles[i].hitpoints++;
+
+                        
                         for (int p = 0; p < 10; p++)
                         {
-                            float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
+                            float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f)); ;
                             var state = new ParticleState()
                             {
                                 Velocity = rand.NextVector2(speed, speed),
                                 Type = ParticleType.Enemy,
                                 LengthMultiplier = 1f
                             };
-
+                            
                             GameRoot.ParticleManager.CreateParticle(Art.LineParticle, enemies[j].Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
                         }
-                        //TODO fix
+
+                        if (blackHoles[i].hitpoints >= 35)
+                        {
+                            Vector2 pos = blackHoles[i].Position;
+                            for (int p = 0; p < 55; p++)
+                            {
+                                float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f)); ;
+                                var state = new ParticleState()
+                                {
+                                    Velocity = rand.NextVector2(speed, speed),
+                                    Type = ParticleType.Enemy,
+                                    LengthMultiplier = 1f
+                                };
+
+                                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, enemies[j].Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
+                            }
+                            blackHoles[i].Kill();
+
+                            EnemySpawner.Swarm(pos);
+                            
+                        }
+                        
                     }
                 for (int j = 0; j < bullets.Count; j++)
                 {

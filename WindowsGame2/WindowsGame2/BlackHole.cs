@@ -16,7 +16,7 @@ namespace GeometryWars
     {
         private static Random rand = new Random();
 
-        private int hitpoints = 10;
+        public int hitpoints = 10;
         private int PointValue;
 
         public BlackHole(Vector2 position)
@@ -63,13 +63,13 @@ namespace GeometryWars
 
             Position += Velocity;
             Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
-            Velocity *= 0.95f;
+            Velocity *= 0.9f;
             var bounds = GameRoot.Viewport.Bounds;
             bounds.Inflate(-image.Width, -image.Height);
 
             //if the enemy is outside the bounds, make it move away from the edge
-            if (!bounds.Contains(Position.ToPoint()))
-                Velocity = -Velocity;
+            //if (!bounds.Contains(Position.ToPoint()))
+                //Velocity = -Velocity;
             //Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
 
             //Velocity *= 0.75f;

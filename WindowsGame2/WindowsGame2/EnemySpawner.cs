@@ -17,11 +17,12 @@ namespace GeometryWars
         static Random rand = new Random();
         static float inverseSpawnChance = 45;
         static float inverseBlackHoleChance = 600;
+        private static int MaxEnemyCount = 400;
 
         public static void Update()
         {
-            
-            if (!PlayerShip.Instance.IsDead && EntityManager.Count < 400)
+
+            if (!PlayerShip.Instance.IsDead && EntityManager.Count < MaxEnemyCount)
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
@@ -65,6 +66,25 @@ namespace GeometryWars
         public static void Reset()
         {
             inverseSpawnChance = 60;
+        }
+
+        public static void Swarm(Vector2 pos)
+        {
+            int cooldownFrames = 2;
+            int cooldownRemaining = 0;
+
+            for(int Swarm = 0; Swarm < 35 && EntityManager.Count + Swarm <= MaxEnemyCount; )
+            {
+                if(cooldownRemaining <= 0)
+                {
+                    cooldownRemaining = cooldownFrames;
+                    pos += new Vector2(rand.Next(5) / 2, rand.Next(5) / 2);
+                    EntityManager.Add(Enemy.CreateWanderer(pos));
+                    Swarm++;
+                }
+                if (cooldownRemaining > 0)
+                    cooldownRemaining--;
+            }
         }
     }
 }
