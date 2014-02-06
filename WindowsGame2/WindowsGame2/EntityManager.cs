@@ -137,7 +137,19 @@ namespace GeometryWars
                     {
                         enemies[j].Effect();
                         enemies[j].IsExpired = true;
+                        for (int p = 0; p < 10; p++)
+                        {
+                            float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
+                            var state = new ParticleState()
+                            {
+                                Velocity = rand.NextVector2(speed, speed),
+                                Type = ParticleType.Enemy,
+                                LengthMultiplier = 1f
+                            };
 
+                            GameRoot.ParticleManager.CreateParticle(Art.LineParticle, enemies[j].Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
+                        }
+                        //TODO fix
                     }
                 for (int j = 0; j < bullets.Count; j++)
                 {

@@ -36,7 +36,7 @@ namespace GeometryWars
 
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1600;
-            this.IsFixedTimeStep = false;
+            //this.IsFixedTimeStep = false;
             graphics.ApplyChanges();
 
             bloom = new BloomComponent(this);
