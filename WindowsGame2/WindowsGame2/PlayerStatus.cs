@@ -35,12 +35,14 @@ namespace GeometryWars
         {
             // return the saved high score if possible and return 0 otherwise
             int score;
+
             return File.Exists(highScoreFilename) && int.TryParse(File.ReadAllText(highScoreFilename), out score) ? score : 0;
         }
 
         private static void SaveHighScore(int score)
         {
-            File.WriteAllText(highScoreFilename, score.ToString());
+            GameRoot.WriteFile(highScoreFilename, score.ToString());
+            //File.WriteAllText(highScoreFilename, score.ToString());
         }
 
 
