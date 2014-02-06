@@ -135,7 +135,7 @@ namespace GeometryWars
 
             if (WasButtonPressed(Buttons.DPadUp))
                 PlayerShip.WeaponLevel++;
-            if (WasButtonPressed(Buttons.DPadDown) && !PlayerShip.WeaponLevel <= 0)
+            if (WasButtonPressed(Buttons.DPadDown) && PlayerShip.WeaponLevel <= 0)
                 PlayerShip.WeaponLevel--;
 
         }
