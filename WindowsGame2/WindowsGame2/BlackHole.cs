@@ -100,11 +100,13 @@ namespace GeometryWars
 
                 GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
             }
+            GameRoot.grid.ApplyExplosiveForce(20f, Position, 150);
         }
         public void Kill()
         {
             hitpoints = 0;
             WasShot();
+            GameRoot.grid.ApplyExplosiveForce(100f, Position, 350);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
