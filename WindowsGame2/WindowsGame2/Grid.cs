@@ -53,7 +53,9 @@ namespace GeometryWars
                         springList.Add(new Spring(fixedPoints[x, y], points[x, y], 0.002f, 0.02f));
 
                     const float stiffness = 0.28f;
-                    const float damping = 0.06f;
+                    const float damping = 0.10f;
+                    //const float stiffness = 0.28f;
+                    //const float damping = 0.06f;
                     if (x > 0)
                         springList.Add(new Spring(points[x - 1, y], points[x, y], stiffness, damping));
                     if (y > 0)

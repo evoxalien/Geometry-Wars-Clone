@@ -3,16 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
 
 namespace GeometryWars
 {
     public enum ParticleType { None, Enemy, Bullet, IgnoreGravity }
+    
 
     public struct ParticleState
     {
+        static Random rand = new Random();
         public Vector2 Velocity;
         public ParticleType Type;
         public float LengthMultiplier;
+
+        public ParticleState(Vector2 velocity, ParticleType type, float lengthMultiplier = 1f)
+        {
+            Velocity = velocity;
+            Type = type;
+            LengthMultiplier = lengthMultiplier;
+        }
+
+        public static ParticleState GetRandom(float minVel, float maxVel)
+        {
+            var state = new ParticleState();
+            state.Velocity = rand.NextVector2(minVel, maxVel);
+            state.Type = ParticleType.None;
+            state.LengthMultiplier = 1;
+
+            return state;
+        }
 
         public static void UpdateParticle(ParticleManager<ParticleState>.Particle particle)
         {
@@ -51,6 +77,8 @@ namespace GeometryWars
             vel *= 0.97f;
             particle.State.Velocity = vel;
         }
+
+
     }
     
 }

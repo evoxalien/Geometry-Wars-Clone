@@ -21,6 +21,8 @@ namespace GeometryWars
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
         private int PointValue { get; set; }
         private int EnemyType = 0;
+        //float MaxAngle = 2;
+
         public Enemy(Texture2D image, Vector2 position)
         {
             this.image = image;
@@ -61,11 +63,11 @@ namespace GeometryWars
             }*/
             while (true)
             {
+                float LastOrientation = Orientation;
                 Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
                 if (Velocity != Vector2.Zero)
-                {
                     Orientation = Velocity.ToAngle();
-                }
+                    
                 yield return 0;
             }
         }

@@ -18,6 +18,7 @@ namespace GeometryWars
 
         public int hitpoints = 10;
         private int PointValue;
+        float scale = 1;
 
         public BlackHole(Vector2 position)
         {
@@ -66,7 +67,7 @@ namespace GeometryWars
             Velocity *= 0.9f;
             var bounds = GameRoot.Viewport.Bounds;
             bounds.Inflate(-image.Width, -image.Height);
-
+            scale = 1 + 0.1f * (float)Math.Sin(10 * GameRoot.GameTime.TotalGameTime.TotalSeconds);
             //if the enemy is outside the bounds, make it move away from the edge
             //if (!bounds.Contains(Position.ToPoint()))
                 //Velocity = -Velocity;
@@ -111,7 +112,7 @@ namespace GeometryWars
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            float scale = 1 + 0.1f * (float)Math.Sin(10 * GameRoot.GameTime.TotalGameTime.TotalSeconds);
+            
             spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, scale, 0, 0);
             
         }

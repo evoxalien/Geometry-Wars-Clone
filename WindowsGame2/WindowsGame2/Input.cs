@@ -21,6 +21,7 @@ namespace GeometryWars
         public static bool DevMode = false;
         public static bool DevModeParticles = false;
         public static bool DevModeGrid = false;
+        public static bool GamePause = false;
 
         private static bool isAimingWithMouse = false;
 
@@ -46,6 +47,7 @@ namespace GeometryWars
 
             Input.GodModeButtonPressed();
             Input.DevModeButtonPressed();
+            Input.GamePausePressed();
         }
         public static bool WasKeyPressed(Keys key)
         {
@@ -121,7 +123,7 @@ namespace GeometryWars
         }
         public static void GodModeButtonPressed()
         {
-            if (WasButtonPressed(Buttons.Start) || WasKeyPressed(Keys.G))
+            if (WasButtonPressed(Buttons.RightShoulder) || WasKeyPressed(Keys.G))
             {
                 GodMode = !GodMode;
                 if (GodMode)
@@ -143,9 +145,16 @@ namespace GeometryWars
                 if (WasButtonPressed(Buttons.DPadDown) && PlayerShip.WeaponLevel >= 1)
                     PlayerShip.WeaponLevel--;
             }
+            
         }
 
-
+        public static void GamePausePressed()
+        {
+            if (WasButtonPressed(Buttons.Start) || WasKeyPressed(Keys.P))
+            {
+                GamePause = !GamePause;
+            }
+        }
 
     }
 }

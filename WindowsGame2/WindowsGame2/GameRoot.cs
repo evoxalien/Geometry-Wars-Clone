@@ -27,7 +27,6 @@ namespace GeometryWars
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
         public static Grid grid;
-
         int frameCounter;
         int FPS;
         float elapsedTime;
@@ -65,7 +64,9 @@ namespace GeometryWars
             Vector2 gridSpace = new Vector2(gridScale, gridScale);
             // TODO: Add your initialization logic here
             GameTime = new GameTime();
-            grid = new Grid(new Rectangle((int)(-gridSpace.X),(int) (-gridSpace.Y), Viewport.Width + (int)(gridSpace.X), Viewport.Height + (int)(gridSpace.Y)), new Vector2(gridSpace.X, gridSpace.Y));
+            //grid = new Grid(new Rectangle((int)(-gridSpace.X),(int) (-gridSpace.Y), Viewport.Width + (int)(gridSpace.X), Viewport.Height + (int)(gridSpace.Y)), new Vector2(gridSpace.X, gridSpace.Y));
+            grid = new Grid(new Rectangle((int)(-gridSpace.X) * (2), (int)(-gridSpace.Y) * (2), Viewport.Width + (int)(gridSpace.X) * 3, Viewport.Height + (int)(gridSpace.Y) * 3), new Vector2(gridSpace.X, gridSpace.Y));
+
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
@@ -106,17 +107,24 @@ namespace GeometryWars
         {
             GameTime = gameTime;
             Input.Update();
-            EnemySpawner.Update();
+
+            
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             
             // TODO: Add your update logic here
-            grid.Update();
-            PlayerStatus.Update();
+            
+            
             base.Update(gameTime);
-            EntityManager.Update();
-            ParticleManager.Update();
+            if (!Input.GamePause)
+            {
+                PlayerStatus.Update();
+                grid.Update();
+                EnemySpawner.Update();
+                EntityManager.Update();
+                ParticleManager.Update();
+            }
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter++;
@@ -155,6 +163,13 @@ namespace GeometryWars
                 string text = "Game Over\n" +
                     "Your Score: " + PlayerStatus.Score + "\n" +
                     "High Score: " + PlayerStatus.HighScore;
+                Vector2 textSize = Art.Font.MeasureString(text);
+                spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
+            }
+
+            if (Input.GamePause)
+            {
+                string text = "Game Paused\n";
                 Vector2 textSize = Art.Font.MeasureString(text);
                 spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
             }

@@ -17,7 +17,7 @@ namespace GeometryWars
         static Random rand = new Random();
         static float inverseSpawnChance = 45;
         static float inverseBlackHoleChance = 600;
-        private static int MaxEnemyCount = 400;
+        private static int MaxEnemyCount = 4000;
 
         public static void Update()
         {
