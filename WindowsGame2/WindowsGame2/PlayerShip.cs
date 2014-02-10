@@ -57,6 +57,8 @@ namespace GeometryWars
             framesUntilRespawn = 60;
             framesUntilRespawn = PlayerStatus.isGameOver ? 300 : framesUntilRespawn;
 
+           
+
             for (int i = 0; i < 1200; i++)
             {
                 float speed = 18f * (1f - 1 / rand.NextFloat(1f, 10f));

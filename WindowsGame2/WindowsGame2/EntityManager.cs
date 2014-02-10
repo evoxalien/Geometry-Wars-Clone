@@ -123,6 +123,8 @@ namespace GeometryWars
                         PlayerShip.Instance.Kill();
                         enemies.ForEach(x => x.WasShot());
                         blackHoles.ForEach(x => x.Kill());
+                        for (int x = 0; x < bullets.Count; x++)
+                            bullets[x].IsExpired = true;
                         break;
 
                     }
@@ -193,6 +195,9 @@ namespace GeometryWars
                         PlayerShip.Instance.Kill();
                         enemies.ForEach(x => x.IsExpired = true);
                         blackHoles.ForEach(x => x.Kill());
+
+                        for (int x = 0; x < bullets.Count; x++)
+                            bullets[x].IsExpired = true;
                         break;
                     }
                 }
