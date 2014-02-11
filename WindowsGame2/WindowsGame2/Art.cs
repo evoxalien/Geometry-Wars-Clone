@@ -37,9 +37,9 @@ namespace GeometryWars
             LineParticle = content.Load<Texture2D>("Art/LineParticle");
             Glow = content.Load<Texture2D>("Art/Glow");
             
+            //This is for the Grid Background and PlayerShip Exhaust
             Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);
             Pixel.SetData(new[] { Color.White });
-
 
             Font = content.Load<SpriteFont>("Font");
         }
