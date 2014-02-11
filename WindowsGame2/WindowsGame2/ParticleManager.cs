@@ -17,6 +17,21 @@ namespace GeometryWars
         private Action<Particle> updateParticle;
         private CircularParticleArray particleList;
         public int ParticleCount;
+
+        public class Particle
+        {
+            public Texture2D Texture;
+            public Vector2 Position;
+            public float Orientation;
+
+            public Vector2 Scale = Vector2.One;
+
+            public Color Tint;
+            public float Duration;
+            public float PercentLife = 1f;
+            public T State;
+        }
+
         public ParticleManager(int capacity, Action<Particle> updateParticle)
         {
             this.updateParticle = updateParticle;
@@ -27,44 +42,16 @@ namespace GeometryWars
                 particleList[i] = new Particle();
         }
 
-        public void Update()
-        {
-            int removalCount = 0;
-            for (int i = 0; i < particleList.Count; i++)
-            {
-                var particle = particleList[i];
-                updateParticle(particle);
-                particle.PercentLife -= 1f / particle.Duration;
-
-                //Now its time to shift the deleted ones to the back of the list
-                Swap(particleList, i - removalCount, i);
-                ParticleCount = particleList.Count;
-                // if the particle has expired, delete this particle
-                if (particle.PercentLife < 0)
-                    removalCount++;
-            }
-            particleList.Count -= removalCount;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            for (int i = 0; i < particleList.Count; i++)
-            {
-                var particle = particleList[i];
-
-                Vector2 origin = new Vector2(particle.Texture.Width / 2, particle.Texture.Height / 2);
-                spriteBatch.Draw(particle.Texture, particle.Position, null, particle.Tint, particle.Orientation, origin, particle.Scale, 0, 0);
-    
-            }
-        }
-
+        #region AddtionalFunctions
         private static void Swap(CircularParticleArray list, int index1, int index2)
         {
             var temp = list[index1];
             list[index1] = list[index2];
             list[index2] = temp;
         }
+        #endregion
 
+        #region CreateParticle
         public void CreateParticle(Texture2D texture, Vector2 position, Color tint, float duration, Vector2 scale, T state, float theta = 0)
         {
             Particle particle;
@@ -90,23 +77,9 @@ namespace GeometryWars
             particle.Orientation = theta;
             particle.State = state;
         }
+        #endregion
 
-        public class Particle
-        {
-            public Texture2D Texture;
-            public Vector2 Position;
-            public float Orientation;
-
-            public Vector2 Scale = Vector2.One;
-
-            public Color Tint;
-            public float Duration;
-            public float PercentLife = 1f;
-            public T State;
-
-
-        }
-
+        #region ParticleArray
         private class CircularParticleArray
         {
             private int start;
@@ -130,7 +103,42 @@ namespace GeometryWars
                 set { list[(start + i) % list.Length] = value; }
             }
         }
+        #endregion
 
+        #region Update
+        public void Update()
+        {
+            int removalCount = 0;
+            for (int i = 0; i < particleList.Count; i++)
+            {
+                var particle = particleList[i];
+                updateParticle(particle);
+                particle.PercentLife -= 1f / particle.Duration;
+
+                //Now its time to shift the deleted ones to the back of the list
+                Swap(particleList, i - removalCount, i);
+                ParticleCount = particleList.Count;
+                // if the particle has expired, delete this particle
+                if (particle.PercentLife < 0)
+                    removalCount++;
+            }
+            particleList.Count -= removalCount;
+        }
+        #endregion
+
+        #region Draw
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < particleList.Count; i++)
+            {
+                var particle = particleList[i];
+
+                Vector2 origin = new Vector2(particle.Texture.Width / 2, particle.Texture.Height / 2);
+                spriteBatch.Draw(particle.Texture, particle.Position, null, particle.Tint, particle.Orientation, origin, particle.Scale, 0, 0);
+
+            }
+        }
+        #endregion
 
     }
 }

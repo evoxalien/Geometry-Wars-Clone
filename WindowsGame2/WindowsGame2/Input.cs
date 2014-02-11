@@ -27,28 +27,7 @@ namespace GeometryWars
 
         public static Vector2 MousePosition { get { return new Vector2(mouseState.X, mouseState.Y); } }
 
-        public static void Update()
-        {
-            lastKeyboardState = keyboardState;
-            lastMouseState = mouseState;
-            lastGamepadState = gamepadState;
-
-            keyboardState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
-            gamepadState = GamePad.GetState(PlayerIndex.One);
-
-            // If the player pressed one of the arrow keys or is using a gamepad to aim, we want to disable mouse aiming. Otherwise,
-            // if the player moves the mouse, enable mouse aiming.
-
-            if (new[] { Keys.Left, Keys.Right, Keys.Up, Keys.Down }.Any(x => keyboardState.IsKeyDown(x)) || gamepadState.ThumbSticks.Right != Vector2.Zero)
-                isAimingWithMouse = false;
-            else if (MousePosition != new Vector2(lastMouseState.X, lastMouseState.Y))
-                isAimingWithMouse = true;
-
-            Input.GodModeButtonPressed();
-            Input.DevModeButtonPressed();
-            Input.GamePausePressed();
-        }
+        #region WasKeyOrButtonPressed
         public static bool WasKeyPressed(Keys key)
         {
             return lastKeyboardState.IsKeyUp(key) && keyboardState.IsKeyDown(key);
@@ -58,7 +37,9 @@ namespace GeometryWars
         {
             return lastGamepadState.IsButtonUp(button) && gamepadState.IsButtonDown(button);
         }
+        #endregion
 
+        #region Movement
         public static Vector2 GetMovementDirection()
         {
             Vector2 direction = gamepadState.ThumbSticks.Left;
@@ -79,7 +60,9 @@ namespace GeometryWars
 
             return direction;
         }
+        #endregion
 
+        #region Aiming
         public static Vector2 GetAimDirection()
         {
             
@@ -116,7 +99,9 @@ namespace GeometryWars
             else
                 return Vector2.Normalize(direction);
         }
+        #endregion
 
+        #region Bomb
         public static bool WasBombButtonPressed()
         {
             return WasButtonPressed(Buttons.LeftTrigger) || WasButtonPressed(Buttons.RightTrigger) || WasKeyPressed(Keys.Space);
@@ -130,6 +115,9 @@ namespace GeometryWars
                     DevMode = true;
             }
         }
+        #endregion
+
+        #region DevModeButtons
         public static void DevModeButtonPressed()
         {
             if (WasButtonPressed(Buttons.X) || WasKeyPressed(Keys.X))
@@ -145,9 +133,10 @@ namespace GeometryWars
                 if (WasButtonPressed(Buttons.DPadDown) && PlayerShip.WeaponLevel >= 1)
                     PlayerShip.WeaponLevel--;
             }
-            
         }
+        #endregion
 
+        #region GamePause
         public static void GamePausePressed()
         {
             if (WasButtonPressed(Buttons.Start) || WasKeyPressed(Keys.P))
@@ -155,6 +144,31 @@ namespace GeometryWars
                 GamePause = !GamePause;
             }
         }
+        #endregion
 
+        #region Update
+        public static void Update()
+        {
+            lastKeyboardState = keyboardState;
+            lastMouseState = mouseState;
+            lastGamepadState = gamepadState;
+
+            keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+            gamepadState = GamePad.GetState(PlayerIndex.One);
+
+            // If the player pressed one of the arrow keys or is using a gamepad to aim, we want to disable mouse aiming. Otherwise,
+            // if the player moves the mouse, enable mouse aiming.
+
+            if (new[] { Keys.Left, Keys.Right, Keys.Up, Keys.Down }.Any(x => keyboardState.IsKeyDown(x)) || gamepadState.ThumbSticks.Right != Vector2.Zero)
+                isAimingWithMouse = false;
+            else if (MousePosition != new Vector2(lastMouseState.X, lastMouseState.Y))
+                isAimingWithMouse = true;
+
+            Input.GodModeButtonPressed();
+            Input.DevModeButtonPressed();
+            Input.GamePausePressed();
+        }
+        #endregion
     }
 }

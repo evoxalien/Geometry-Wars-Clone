@@ -23,6 +23,7 @@ namespace GeometryWars
         private int EnemyType = 0;
         //float MaxAngle = 2;
 
+
         public Enemy(Texture2D image, Vector2 position)
         {
             this.image = image;
@@ -31,36 +32,9 @@ namespace GeometryWars
             color = Color.Transparent;
         }
 
-        public override void Update()
-        {
-            if (timeUntilStart <= 0)
-            {
-                //Enemy Behavior logic goes here
-                if(timeUntilStart <= 0)
-                    ApplyBehaviors();
-            }
-            else
-            {
-                timeUntilStart--;
-                color = Color.White * (1 - timeUntilStart / 60f);
-            }
-
-            Position += Velocity;
-            Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
-
-            Velocity *= 0.75f;
-        
-        }
-
+        #region EnemyLogic
         IEnumerable<int> FollowPlayer(float acceleration = 1f)
         {
-            /*while (true)
-            {
-                Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
-                if (Velocity != Vector2.Zero)
-                    Orientation = Velocity.ToAngle();
-                yield return 0;
-            }*/
             while (true)
             {
                 float LastOrientation = Orientation;
@@ -71,19 +45,8 @@ namespace GeometryWars
                 yield return 0;
             }
         }
-/*
-        IEnumerable<int> DodgeBullets(float acceleration = 1f)
-        {
-            while (true)
-            {
-                for (int i = 0; i < EntityManager.bullets.Count; i++)
-                Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
-                if (Velocity != Vector2.Zero)
-                    Orientation = Velocity.ToAngle();
-                yield return 0;
-            }
-        }
-        */
+
+
         IEnumerable<int> MoveInASquare()
         {
             const int framesPerSide = 30;
@@ -115,6 +78,7 @@ namespace GeometryWars
                 }
             }
         }
+        
 
         IEnumerable<int> MoveRandomly()
         {
@@ -143,61 +107,9 @@ namespace GeometryWars
             }
 
         }
-
-        private void AddBehaviour(IEnumerable<int> behavior)
-        {
-            behaviours.Add(behavior.GetEnumerator());
-        }
-
-        private void ApplyBehaviors()
-        {
-            for (int i = 0; i < behaviours.Count; i++)
-            {
-                if(!behaviours[i].MoveNext())
-                    behaviours.RemoveAt(i--);
-            }
-        }
-
-        public void Effect()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                float speed = 6f * (1f - 1 / rand.NextFloat(1f, 10f));
-                var state = new ParticleState()
-                {
-                    Velocity = rand.NextVector2(speed, speed),
-                    Type = ParticleType.Enemy,
-                    LengthMultiplier = 1f
-                };
-                GameRoot.grid.ApplyExplosiveForce(2.5f, Position, 75);
-                if (EnemyType == 1)
-                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 255, 128, 155), 190, new Vector2(1.0f), state);
-                else if (EnemyType == 2)
-                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 128, 128, 155), 190, new Vector2(1.0f), state);
-                else
-                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, new Vector2(1.0f), state);
-            }
-        }
-
-        public void WasShot()
-        {
-            PlayerStatus.AddPoints(PointValue);
-            PlayerStatus.IncreaseMultiplier();
-            //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
-            IsExpired = true;
-
-            Effect();
-
-        }
-
-        public void HandleCollision(Enemy other)
-        {
-            var d = Position - other.Position;
-            Velocity += 10 * d / (d.LengthSquared() + 1);
-        }
-
-        //Defined Types of Enemies!
-
+        #endregion
+        
+        #region DelcaringEnemyTypes
         public static Enemy CreateSeeker(Vector2 position)
         {
             var enemy = new Enemy(Art.Seeker, position);
@@ -228,5 +140,87 @@ namespace GeometryWars
 
             return enemy;
         }
+        #endregion
+        
+        #region AdditionalFunctions
+        public void Effect()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                float speed = 6f * (1f - 1 / rand.NextFloat(1f, 10f));
+                var state = new ParticleState()
+                {
+                    Velocity = rand.NextVector2(speed, speed),
+                    Type = ParticleType.Enemy,
+                    LengthMultiplier = 1f
+                };
+                GameRoot.grid.ApplyExplosiveForce(2.5f, Position, 75);
+                if (EnemyType == 1)
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 255, 128, 155), 190, new Vector2(1.0f), state);
+                else if (EnemyType == 2)
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 128, 128, 155), 190, new Vector2(1.0f), state);
+                else
+                    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, new Vector2(1.0f), state);
+            }
+        }
+
+
+        public void WasShot()
+        {
+            PlayerStatus.AddPoints(PointValue);
+            PlayerStatus.IncreaseMultiplier();
+            //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
+            IsExpired = true;
+
+            Effect();
+
+        }
+
+
+        public void HandleCollision(Enemy other)
+        {
+            var d = Position - other.Position;
+            Velocity += 10 * d / (d.LengthSquared() + 1);
+        }
+
+
+        private void AddBehaviour(IEnumerable<int> behavior)
+        {
+            behaviours.Add(behavior.GetEnumerator());
+        }
+
+
+        private void ApplyBehaviors()
+        {
+            for (int i = 0; i < behaviours.Count; i++)
+            {
+                if (!behaviours[i].MoveNext())
+                    behaviours.RemoveAt(i--);
+            }
+        }
+        #endregion
+
+        #region Update
+        public override void Update()
+        {
+            if (timeUntilStart <= 0)
+            {
+                //Enemy Behavior logic goes here
+                if (timeUntilStart <= 0)
+                    ApplyBehaviors();
+            }
+            else
+            {
+                timeUntilStart--;
+                color = Color.White * (1 - timeUntilStart / 60f);
+            }
+
+            Position += Velocity;
+            Position = Vector2.Clamp(Position, Size / 2, GameRoot.ScreenSize - Size / 2);
+
+            Velocity *= 0.75f;
+
+        }
+        #endregion
     }
 }

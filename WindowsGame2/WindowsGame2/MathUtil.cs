@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GeometryWars
 {
-    class MathUtil
+    class MathUtil //MAAAATHHHHH!!!!
     {
         public static Vector2 FromPolar(float angle, float magnitude)
         {

@@ -29,6 +29,49 @@ namespace GeometryWars
             PointValue = 5;
         }
 
+        //Used to create the On Hit Effect for 
+        public void Effect()
+        {
+
+            for (int i = 0; i < 40; i++)
+            {
+                float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
+                var state = new ParticleState()
+                {
+                    Velocity = rand.NextVector2(speed, speed),
+                    Type = ParticleType.Enemy,
+                    LengthMultiplier = 1f
+                };
+
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
+            }
+            GameRoot.grid.ApplyExplosiveForce(20f, Position, 150);
+        }
+
+
+        public void WasShot()
+        {
+
+
+            hitpoints--;
+            if (hitpoints < 0)
+                IsExpired = true;
+
+            PlayerStatus.AddPoints(PointValue);
+            for (int i = 0; i < PointValue; i++)
+                PlayerStatus.IncreaseMultiplier();
+            Effect();
+        }
+
+        //Used to trigger Effects on Death
+        public void Kill()
+        {
+            hitpoints = 0;
+            Effect();
+            GameRoot.grid.ApplyExplosiveForce(100f, Position, 350);
+        }
+
+        #region Update
         public override void Update()
         {
             GameRoot.grid.ApplyImplosiveForce(2.5f, Position, 250);
@@ -76,47 +119,15 @@ namespace GeometryWars
             //Velocity *= 0.75f;
             
         }
+        #endregion
 
-        public void WasShot()
-        {
-
-            
-            hitpoints--;
-            if (hitpoints < 0)
-                IsExpired = true;
-
-            PlayerStatus.AddPoints(PointValue);
-            for(int i = 0; i < PointValue; i++)
-                PlayerStatus.IncreaseMultiplier();
-
-            for (int i = 0; i < 40; i++)
-            {
-                float speed = 10f * (1f - 1 / rand.NextFloat(1f, 10f));
-                var state = new ParticleState()
-                {
-                    Velocity = rand.NextVector2(speed, speed),
-                    Type = ParticleType.Enemy,
-                    LengthMultiplier = 1f
-                };
-
-                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(128, 255, 255, 155), 190, new Vector2(1.0f), state);
-            }
-            GameRoot.grid.ApplyExplosiveForce(20f, Position, 150);
-        }
-        public void Kill()
-        {
-            hitpoints = 0;
-            WasShot();
-            GameRoot.grid.ApplyExplosiveForce(100f, Position, 350);
-        }
-
+        #region Draw
+        //Used to Draw the Black hole
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
             spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, scale, 0, 0);
-            
         }
 
-        
+        #endregion
     }
 }

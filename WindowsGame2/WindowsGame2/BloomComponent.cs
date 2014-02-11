@@ -18,6 +18,7 @@ namespace BloomPostprocess
 {
     public class BloomComponent : DrawableGameComponent
     {
+
         #region Fields
 
         SpriteBatch spriteBatch;

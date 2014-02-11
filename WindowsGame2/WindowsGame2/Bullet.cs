@@ -25,6 +25,7 @@ namespace GeometryWars
             Radius = 8;
         }
 
+        #region Update
         public override void Update()
         {
             GameRoot.grid.ApplyExplosiveForce(0.5f * Velocity.Length(), Position, 80);
@@ -41,6 +42,6 @@ namespace GeometryWars
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
             }
         }
-
+        #endregion
     }
 }

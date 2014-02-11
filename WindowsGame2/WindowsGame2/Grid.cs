@@ -17,6 +17,7 @@ namespace GeometryWars
         Spring[] springs;
         PointMass[,] points;
 
+        #region Grid
         public Grid(Rectangle size, Vector2 spacing)
         {
             var springList = new List<Spring>();
@@ -65,17 +66,18 @@ namespace GeometryWars
             springs = springList.ToArray();
 
         }
+        #endregion
 
-
-        public void Update()
+        #region AdditionalFunctions
+        public Vector2 ToVec2(Vector3 v)
         {
-            foreach (var spring in springs)
-                spring.Update();
-
-            foreach (var mass in points)
-                mass.Update();
+            // do a perspective projection
+            float factor = (v.Z + 2000) / 2000;
+            return (new Vector2(v.X, v.Y) - GameRoot.ScreenSize / 2f) * factor + GameRoot.ScreenSize / 2;
         }
+        #endregion
 
+        #region ApplyDirectedForce
         public void ApplyDirectedForce(Vector2 force, Vector2 position, float radius)
         {
             ApplyDirectedForce(new Vector3(force, 0), new Vector3(position, 0), radius);
@@ -87,7 +89,9 @@ namespace GeometryWars
                 if (Vector3.DistanceSquared(position, mass.Position) < radius * radius)
                     mass.ApplyForce(10 * force / (10 + Vector3.Distance(position, mass.Position)));
         }
+        #endregion
 
+        #region ApplyImplosiveForce
         public void ApplyImplosiveForce(float force, Vector2 position, float radius)
         {
             ApplyImplosiveForce(force, new Vector3(position, 0), radius);
@@ -105,7 +109,9 @@ namespace GeometryWars
                 }
             }
         }
+        #endregion
 
+        #region ApplyExplosiveForce
         public void ApplyExplosiveForce(float force, Vector2 position, float radius)
         {
             ApplyExplosiveForce(force, new Vector3(position, 0), radius);
@@ -123,14 +129,20 @@ namespace GeometryWars
                 }
             }
         }
+        #endregion
 
-        public Vector2 ToVec2(Vector3 v)
+        #region Update
+        public void Update()
         {
-            // do a perspective projection
-            float factor = (v.Z + 2000) / 2000;
-            return (new Vector2(v.X, v.Y) - GameRoot.ScreenSize / 2f) * factor + GameRoot.ScreenSize / 2;
-        }
+            foreach (var spring in springs)
+                spring.Update();
 
+            foreach (var mass in points)
+                mass.Update();
+        }
+        #endregion
+
+        #region Draw
         public void Draw(SpriteBatch spriteBatch)
         {
             int width = points.GetLength(0);
@@ -142,12 +154,12 @@ namespace GeometryWars
                 for (int x = 1; x < width; x++)
                 {
 
-                    Vector2 left = new Vector2(), up = new Vector2(); Vector2 p = ToVec2(points[x, y].Position); 
+                    Vector2 left = new Vector2(), up = new Vector2(); Vector2 p = ToVec2(points[x, y].Position);
                     if (x > 1)
                     {
                         left = ToVec2(points[x - 1, y].Position);
                         float thickness = y % 3 == 1 ? 3f : 1f;
-                        
+
                         // use Catmull-Rom interpolation to help smooth bends in the grid
                         int clampedX = Math.Min(x + 1, width - 1);
                         Vector2 mid = Vector2.CatmullRom(ToVec2(points[x - 2, y].Position), left, p, ToVec2(points[clampedX, y].Position), 0.5f);
@@ -180,5 +192,6 @@ namespace GeometryWars
                 }
             }
         }
+        #endregion
     }
 }

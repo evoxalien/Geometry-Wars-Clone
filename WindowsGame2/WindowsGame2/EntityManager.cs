@@ -15,6 +15,8 @@ namespace GeometryWars
     static class EntityManager
     {
         private static Random rand = new Random();
+
+        //Entity Lists
         static List<Entity> entities = new List<Entity>();
         static List<Enemy> enemies = new List<Enemy>();
         static List<Bullet> bullets = new List<Bullet>();
@@ -25,9 +27,11 @@ namespace GeometryWars
         static bool isUpdating;
         static List<Entity> addedEntities = new List<Entity>();
 
+        //Counts
         public static int Count { get { return entities.Count; } }
         public static int BlackHoleCount { get { return blackHoles.Count; } }
 
+        #region AddingEntities
         private static void AddEntity(Entity entity)
         {
             entities.Add(entity);
@@ -46,40 +50,18 @@ namespace GeometryWars
             else
                 addedEntities.Add(entity);
         }
+        #endregion
 
-        public static void Update()
-        {
-            isUpdating = true;
-            
-            HandleCollisions();
-
-            foreach (var entity in entities)
-                entity.Update();
-
-            isUpdating = false;
-
-            foreach (var entity in addedEntities)
-                AddEntity(entity);
-
-            addedEntities.Clear();
-
-            // remove any expired entities
-            entities = entities.Where(x => !x.IsExpired).ToList();
-            bullets = bullets.Where(x => !x.IsExpired).ToList();
-            enemies = enemies.Where(x => !x.IsExpired).ToList();
-            blackHoles = blackHoles.Where(x => !x.IsExpired).ToList();
-
-        }
-
+        #region BlackHoleRelated
         // Used with Blackholes!
 
         public static System.Collections.IEnumerable GetNearbyEntities(Vector2 position, float radius)
         {
             return entities.Where(x => Vector2.DistanceSquared(position, x.Position) < radius * radius);
         }
+        #endregion
 
-        //Collision!
-
+        #region Collision
         private static bool IsColliding(Entity a, Entity b)
         {
             float radius = a.Radius + b.Radius;
@@ -203,12 +185,40 @@ namespace GeometryWars
                 }
             }
         }
+        #endregion
 
+        #region Update
+        public static void Update()
+        {
+            isUpdating = true;
 
+            HandleCollisions();
+
+            foreach (var entity in entities)
+                entity.Update();
+
+            isUpdating = false;
+
+            foreach (var entity in addedEntities)
+                AddEntity(entity);
+
+            addedEntities.Clear();
+
+            // remove any expired entities
+            entities = entities.Where(x => !x.IsExpired).ToList();
+            bullets = bullets.Where(x => !x.IsExpired).ToList();
+            enemies = enemies.Where(x => !x.IsExpired).ToList();
+            blackHoles = blackHoles.Where(x => !x.IsExpired).ToList();
+
+        }
+        #endregion
+
+        #region Draw
         public static void Draw(SpriteBatch spriteBatch)
         {
             foreach (var entity in entities)
                 entity.Draw(spriteBatch);
         }
+        #endregion
     }
 }

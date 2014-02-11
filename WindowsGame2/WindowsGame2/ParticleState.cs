@@ -40,6 +40,7 @@ namespace GeometryWars
             return state;
         }
 
+        #region UpdateParticle
         public static void UpdateParticle(ParticleManager<ParticleState>.Particle particle)
         {
             var vel = particle.State.Velocity;
@@ -64,8 +65,6 @@ namespace GeometryWars
 
                 }
             }
-            
-            
 
             particle.Tint.A = (byte)(255 * alpha);
 
@@ -77,6 +76,7 @@ namespace GeometryWars
             vel *= 0.97f;
             particle.State.Velocity = vel;
         }
+        #endregion
 
 
     }

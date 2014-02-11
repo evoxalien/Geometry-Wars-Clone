@@ -41,14 +41,48 @@ namespace GeometryWars
             Radius = 10;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        #region Effects
+        private void MakeExhaustFire()
         {
-            if(!IsDead)
-                base.Draw(spriteBatch);
+            if (Velocity.LengthSquared() > 0.1f)
+            {
+                //Setting up Variables
+                Orientation = Velocity.ToAngle();
+                Quaternion rot = Quaternion.CreateFromYawPitchRoll(0f, 0f, Orientation);
 
-          
+                double t = GameRoot.GameTime.TotalGameTime.TotalSeconds;
+                // The primary velocity of the particles is 3 px per frame in the direction opposite to which the ship is travelling
+                Vector2 baseVel = Velocity.ScaleTo(-4);
+                //Calc the sideways vel for the two side streams. the dir is perpendicuar to the ship's velocity and the magnitude varies
+                Vector2 prepVel = new Vector2(baseVel.Y, -baseVel.X) * (0.6f * (float)Math.Sin(t * 10));
+                Color sideColor = new Color(200, 38, 9); // Deep Red
+                Color midColor = new Color(255, 187, 30); // orange - yellow
+                Vector2 pos = Position + Vector2.Transform(new Vector2(-25, 0), rot); // Position of the ships exaust pipe
+                const float alpha = 0.75f;
+
+                //-------------Mid Particle Stream!!---------------
+                Vector2 velMid = baseVel + rand.NextVector2(0, 1);
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
+                    new ParticleState(velMid, ParticleType.Enemy));
+                GameRoot.ParticleManager.CreateParticle(Art.Glow, pos, midColor * alpha, 15f, new Vector2(0.5f, 1),
+                    new ParticleState(velMid, ParticleType.Enemy));
+
+                //-------------Sid Particle Stream!----------------
+                Vector2 vel1 = baseVel + prepVel + rand.NextVector2(0, 0.3f);
+                Vector2 vel2 = baseVel - prepVel + rand.NextVector2(0, 0.3f);
+
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
+                    new ParticleState(vel1, ParticleType.Enemy));
+                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
+                    new ParticleState(vel2, ParticleType.Enemy));
+
+
+
+            }
         }
+        #endregion
 
+        #region KillPlayer
         public void Kill()
         {
             
@@ -77,7 +111,9 @@ namespace GeometryWars
             EnemySpawner.Reset();
      
         }
+        #endregion
 
+        #region Update
         public override void Update()
         {
 
@@ -144,44 +180,16 @@ namespace GeometryWars
                 cooldownRemaining --;
             MakeExhaustFire();
         }
+        #endregion
 
-        private void MakeExhaustFire()
+        #region Draw
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Velocity.LengthSquared() > 0.1f)
-            {
-                //Setting up Variables
-                Orientation = Velocity.ToAngle();
-                Quaternion rot = Quaternion.CreateFromYawPitchRoll(0f, 0f, Orientation);
-
-                double t = GameRoot.GameTime.TotalGameTime.TotalSeconds;
-                // The primary velocity of the particles is 3 px per frame in the direction opposite to which the ship is travelling
-                Vector2 baseVel = Velocity.ScaleTo(-4);
-                //Calc the sideways vel for the two side streams. the dir is perpendicuar to the ship's velocity and the magnitude varies
-                Vector2 prepVel = new Vector2(baseVel.Y, -baseVel.X) * (0.6f * (float)Math.Sin(t * 10));
-                Color sideColor = new Color(200, 38, 9); // Deep Red
-                Color midColor = new Color(255, 187, 30); // orange - yellow
-                Vector2 pos = Position + Vector2.Transform(new Vector2(-25, 0), rot); // Position of the ships exaust pipe
-                const float alpha = 0.75f;
-
-                //-------------Mid Particle Stream!!---------------
-                Vector2 velMid = baseVel + rand.NextVector2(0, 1);
-                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
-                    new ParticleState(velMid, ParticleType.Enemy));
-                GameRoot.ParticleManager.CreateParticle(Art.Glow, pos, midColor * alpha, 15f, new Vector2(0.5f, 1),
-                    new ParticleState(velMid, ParticleType.Enemy));
-
-                //-------------Sid Particle Stream!----------------
-                Vector2 vel1 = baseVel + prepVel + rand.NextVector2(0, 0.3f);
-                Vector2 vel2 = baseVel - prepVel + rand.NextVector2(0, 0.3f);
-
-                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
-                    new ParticleState(vel1, ParticleType.Enemy));
-                GameRoot.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 15f, new Vector2(0.5f, 1),
-                    new ParticleState(vel2, ParticleType.Enemy));
+            if (!IsDead)
+                base.Draw(spriteBatch);
 
 
-
-            }
         }
+        #endregion
     }
 }

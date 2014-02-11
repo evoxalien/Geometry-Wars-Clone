@@ -29,6 +29,7 @@ namespace GeometryWars
             TargetLength = Vector3.Distance(end1.Position, end2.Position) * 0.95f;
         }
 
+        #region Update
         public void Update()
         {
             var x = End1.Position - End2.Position;
@@ -45,5 +46,6 @@ namespace GeometryWars
             End1.ApplyForce(-force);
             End2.ApplyForce(force);
         }
+        #endregion
     }
 }

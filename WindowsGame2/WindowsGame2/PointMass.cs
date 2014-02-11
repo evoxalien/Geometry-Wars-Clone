@@ -37,6 +37,7 @@ namespace GeometryWars
             damping *= factor;
         }
 
+        #region Update
         public void Update()
         {
             Velocity += acceleration;
@@ -48,6 +49,7 @@ namespace GeometryWars
             Velocity *= damping;
             damping = 0.98f;
         }
+        #endregion
 
     }
 }

@@ -27,25 +27,19 @@ namespace GeometryWars
         private static float multiplierTimeLeft; // time until the current multiplier expries
         private static int scoreForExtraLife; // score required to gain an extra life
 
-        private const string highScoreFilename = "highscore.txt";
-
         public static bool isGameOver { get { return Lives == 0; } }
 
         private static int LoadHighScore()
         {
             // return the saved high score if possible and return 0 otherwise
-            int score;
-
-            return File.Exists(highScoreFilename) && int.TryParse(File.ReadAllText(highScoreFilename), out score) ? score : 0;
+            return GameRoot.GetHighscore();
         }
 
         private static void SaveHighScore(int score)
         {
-            GameRoot.WriteFile(highScoreFilename, score.ToString());
+            GameRoot.WriteFile(GameRoot.highScoreFilename, score.ToString());
             //File.WriteAllText(highScoreFilename, score.ToString());
         }
-
-
 
         //Static constructor
         static PlayerStatus()
@@ -53,7 +47,7 @@ namespace GeometryWars
             HighScore = LoadHighScore();
             Reset();
         }
-
+        
         public static void Reset()
         {
             if (Score > HighScore)
@@ -65,18 +59,9 @@ namespace GeometryWars
             Lives = 4;
         }
 
-        public static void Update()
+        public static void ResetMultiplier()
         {
-           
-            if (Multiplier > 1)
-            {//update teh multiplier timer
-                if ((multiplierTimeLeft -= (float)GameRoot.GameTime.ElapsedGameTime.TotalSeconds) <= 0)
-                {
-                    multiplierTimeLeft = multiplierExpiryTime;
-                    ResetMultiplier();
-                }
-            }
-          
+            Multiplier = 1;
         }
 
         public static void AddPoints(int basePoints)
@@ -91,6 +76,12 @@ namespace GeometryWars
             }
         }
 
+        public static void RemoveLife()
+        {
+            Lives--;
+        }
+
+        #region Multiplier
         public static void IncreaseMultiplier()
         {
             if (PlayerShip.Instance.IsDead)
@@ -104,15 +95,22 @@ namespace GeometryWars
                 PlayerShip.WeaponLevel = Multiplier / 100 ;
             
         }
+        #endregion
 
-        public static void ResetMultiplier()
+        #region Update
+        public static void Update()
         {
-            Multiplier = 1;
-        }
 
-        public static void RemoveLife()
-        {
-            Lives--;
+            if (Multiplier > 1)
+            {//update teh multiplier timer
+                if ((multiplierTimeLeft -= (float)GameRoot.GameTime.ElapsedGameTime.TotalSeconds) <= 0)
+                {
+                    multiplierTimeLeft = multiplierExpiryTime;
+                    ResetMultiplier();
+                }
+            }
         }
+        #endregion
+
     }
 }

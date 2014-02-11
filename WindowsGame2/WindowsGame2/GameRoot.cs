@@ -26,6 +26,7 @@ namespace GeometryWars
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
+        public const string highScoreFilename = "highscore.txt";
         public static Grid grid;
         int frameCounter;
         int FPS;
@@ -49,7 +50,7 @@ namespace GeometryWars
             
         }
 
-
+        #region Initialize
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -74,7 +75,9 @@ namespace GeometryWars
             ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
  
         }
+        #endregion
 
+        #region LoadContent
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -88,7 +91,9 @@ namespace GeometryWars
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
+        #endregion
 
+        #region UnloadContent
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -97,7 +102,9 @@ namespace GeometryWars
         {
             // TODO: Unload any non ContentManager content here
         }
+        #endregion
 
+        #region Update
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -136,7 +143,9 @@ namespace GeometryWars
                 elapsedTime = 0;
             }
         }
+        #endregion
 
+        #region Draw
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -201,7 +210,9 @@ namespace GeometryWars
 
             base.Draw(gameTime);
         }
+        #endregion
 
+        #region DrawText
         private void DrawRightAlignedString(string text, float y)
         {
             var textWidth = Art.Font.MeasureString(text).X;
@@ -213,11 +224,19 @@ namespace GeometryWars
             var textWidth = Art.Font.MeasureString(text).X;
             spriteBatch.DrawString(Art.Font, text, new Vector2(5, y), Color.White);
         }
+        #endregion
 
-
+        #region ReadWriteFiles
         public static void WriteFile(string filename, string stuff)
         {
             File.WriteAllText(filename, stuff);
         }
+
+        public static int GetHighscore()
+        {
+            int score;
+            return File.Exists(highScoreFilename) && int.TryParse(File.ReadAllText(highScoreFilename), out score) ? score : 0;
+        }
+        #endregion
     }
 }
