@@ -107,6 +107,28 @@ namespace GeometryWars
             }
 
         }
+
+        IEnumerable<int> FlappyBirdMotion()
+        {
+
+            float direction = rand.NextFloat(0, MathHelper.TwoPi);
+            const int framesBetweenDips = 30;
+
+            while (true)
+            {
+               float LastOrientation = Orientation;
+               
+                for (int i = 0; i < framesBetweenDips; i++)
+                {
+                    Velocity += Vector2.UnitX;
+                    yield return 0;
+                }
+                if (Velocity != Vector2.Zero)
+                    Orientation = Velocity.ToAngle();
+                }
+            }
+
+        }
         #endregion
         
         #region DelcaringEnemyTypes
@@ -138,6 +160,16 @@ namespace GeometryWars
             enemy.PointValue = 1;
             enemy.EnemyType = 3;
 
+            return enemy;
+        }
+
+        public static Enemy CreateFlappyMinion(Vector2 position)
+        {
+            var enemy = new Enemy(Art.FlappyMinion, position);
+            enemy.AddBehaviour(enemy.FlappyBirdMotion());
+            enemy.PointValue = 2;
+            enemy.EnemyType = 1;
+             
             return enemy;
         }
         #endregion

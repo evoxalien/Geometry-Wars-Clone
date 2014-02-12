@@ -66,6 +66,7 @@ namespace GeometryWars
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
+                /*
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
                     for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
@@ -84,6 +85,15 @@ namespace GeometryWars
                 }
                 if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
                     EntityManager.Add(new BlackHole(GetSpawnPosition()));
+                 */
+                if (rand.Next((int)inverseSpawnChance) == 0)
+                {
+                    for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                        EntityManager.Add(Enemy.CreateFlappyMinion(GetSpawnPosition()));
+
+                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                }
+
             }
 
             // slowly increase the spawn rate as time progresses

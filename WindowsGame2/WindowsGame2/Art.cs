@@ -24,6 +24,8 @@ namespace GeometryWars
         public static Texture2D Pixel { get; private set; }
         public static Texture2D Glow { get; private set; }
 
+        public static Texture2D FlappyBirdMinon { get; private set; }
+
         public static SpriteFont Font { get; private set; }
 
         public static void Load(ContentManager content)
@@ -36,6 +38,8 @@ namespace GeometryWars
             BlackHole = content.Load<Texture2D>("Art/BlackHole");
             LineParticle = content.Load<Texture2D>("Art/LineParticle");
             Glow = content.Load<Texture2D>("Art/Glow");
+
+            FlappyBirdMinon = content.Load<Texture2D>("Art/FlappyBird");
             
             //This is for the Grid Background and PlayerShip Exhaust
             Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);
