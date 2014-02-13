@@ -70,8 +70,10 @@ namespace GeometryWars
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
                     for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                    {
                         EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
-                    
+                        //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0); 
+                    }
                     //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 }
                 if (rand.Next((int)inverseSpawnChance) == 0)
@@ -79,8 +81,12 @@ namespace GeometryWars
                     if (PlayerStatus.Multiplier != 500)
                     {
                         for (int j = 0; j < (int)(PlayerStatus.Multiplier / 50) % 4 || j < (PlayerShip.WeaponLevel * 3 + 1) % 3; j++)
+                        {
                             EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+                            //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                        }
                         //EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+                 
                     }
                 }
                 if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
@@ -89,7 +95,10 @@ namespace GeometryWars
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
                     for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                    {
                         EntityManager.Add(Enemy.CreateFlappyMinion(GetSpawnPosition()));
+                        //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    }
 
                     //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 }

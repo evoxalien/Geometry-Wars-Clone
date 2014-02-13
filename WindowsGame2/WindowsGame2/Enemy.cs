@@ -21,6 +21,7 @@ namespace GeometryWars
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
         private int PointValue { get; set; }
         private int EnemyType = 0;
+        public int scale;
         //float MaxAngle = 2;
 
 
@@ -112,20 +113,35 @@ namespace GeometryWars
         {
 
             float direction = rand.NextFloat(0, MathHelper.TwoPi);
-            const int framesBetweenDips = 30;
+            const int framesBetweenDips = 60;
 
             while (true)
             {
                float LastOrientation = Orientation;
                
-                for (int i = 0; i < framesBetweenDips; i++)
+                for (int i = 0; i < framesBetweenDips/6; i++)
                 {
-                    Velocity += Vector2.UnitX;
+                    Velocity += Vector2.UnitX/4;
+                    Orientation = Velocity.ToAngle();
                     yield return 0;
                 }
-                if (Velocity != Vector2.Zero)
+                for (int i = 0; i < framesBetweenDips / 3 + rand.Next(0, 100); i++)
+                {
+                    Velocity += (Vector2.UnitY + Vector2.UnitX)/2;
+                    Orientation = Velocity.ToAngle();
+                    yield return 0;
+                }
+                for (int i = 0; i < framesBetweenDips / 2 + rand.Next(0, 10); i++)
+                {
+                    Velocity += (-Vector2.UnitY + Vector2.UnitX)/2;
+                    Orientation = Velocity.ToAngle();
+                    yield return 0;
+                }
+
+                if (Velocity != Vector2.Zero) {
                     Orientation = Velocity.ToAngle();
                 }
+                Velocity *= .75f;
             }
 
         }
@@ -165,11 +181,10 @@ namespace GeometryWars
 
         public static Enemy CreateFlappyMinion(Vector2 position)
         {
-            var enemy = new Enemy(Art.FlappyMinion, position);
+            var enemy = new Enemy(Art.FlappyBirdMinion, position);
             enemy.AddBehaviour(enemy.FlappyBirdMotion());
             enemy.PointValue = 2;
-            enemy.EnemyType = 1;
-             
+            enemy.EnemyType = 4;
             return enemy;
         }
         #endregion
@@ -187,7 +202,7 @@ namespace GeometryWars
                     LengthMultiplier = 1f
                 };
                 GameRoot.grid.ApplyExplosiveForce(2.5f, Position, 75);
-                if (EnemyType == 1)
+                if (EnemyType == 1 || EnemyType == 4)
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 255, 128, 155), 190, new Vector2(1.0f), state);
                 else if (EnemyType == 2)
                     GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.FromNonPremultiplied(255, 128, 128, 155), 190, new Vector2(1.0f), state);
