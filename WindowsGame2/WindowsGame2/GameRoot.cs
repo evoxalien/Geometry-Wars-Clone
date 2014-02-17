@@ -23,11 +23,12 @@ namespace GeometryWars
         SpriteBatch spriteBatch;
         public static GameRoot Instance { get; private set; }
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
-        public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
+        public static Vector2 ScreenSize { get; set; }
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
         public const string highScoreFilename = "highscore.txt";
         public static Grid grid;
+        private bool isFullscreen = false;
         int frameCounter;
         int FPS;
         float elapsedTime;
@@ -60,6 +61,9 @@ namespace GeometryWars
         protected override void Initialize()
         {
             int gridScale = 35;
+
+            ScreenSize = new Vector2(Viewport.Width, Viewport.Height);
+
             Input.DevModeParticles = true;
             Input.DevModeGrid = true;
             Vector2 gridSpace = new Vector2(gridScale, gridScale);
@@ -71,8 +75,9 @@ namespace GeometryWars
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(Sound.Music);
+            MediaPlayer.Play(Sound.Music);
             ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
+
  
         }
         #endregion
@@ -117,9 +122,15 @@ namespace GeometryWars
 
             
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-            
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                //this.Exit();
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
+            {
+                Input.GamePause = true;
+                graphics.ToggleFullScreen();
+                isFullscreen = !isFullscreen;
+            }
             // TODO: Add your update logic here
             
             
@@ -186,6 +197,8 @@ namespace GeometryWars
             int print = 0;
             DrawRightAlignedString("Score: " + PlayerStatus.Score, 5 + (30 * print++));
             DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 5 + (30 * print++));
+            if(PlayerStatus.Combo > 1)
+                DrawRightAlignedString("Combo: " + PlayerStatus.Combo, 5 + (30 * print++));
             if (Input.DevMode)
             {
                 DrawRightAlignedString("FPS: " + FPS.ToString(), +(30 * print++));

@@ -53,7 +53,7 @@ namespace GeometryWars
         public void WasShot()
         {
             PlayerStatus.AddPoints(PointValue);
-            PlayerStatus.IncreaseMultiplier();
+            PlayerStatus.IncreaseCombo();
             //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
             IsExpired = true;
 

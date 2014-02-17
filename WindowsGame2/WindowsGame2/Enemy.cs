@@ -152,7 +152,7 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Seeker, position);
             enemy.AddBehaviour(enemy.FollowPlayer());
-            enemy.PointValue = 2;
+            enemy.PointValue = 25;
             enemy.EnemyType = 1;
              
             return enemy;
@@ -162,7 +162,7 @@ namespace GeometryWars
         {
             var enemy = new Enemy(Art.Wanderer, position);
             enemy.AddBehaviour(enemy.MoveRandomly());
-            enemy.PointValue = 1;
+            enemy.PointValue = 10;
             enemy.EnemyType = 2;
 
             return enemy;
@@ -215,7 +215,7 @@ namespace GeometryWars
         public void WasShot()
         {
             PlayerStatus.AddPoints(PointValue);
-            PlayerStatus.IncreaseMultiplier();
+            PlayerStatus.IncreaseCombo();
             //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
             IsExpired = true;
 

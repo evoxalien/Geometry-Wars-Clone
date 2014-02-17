@@ -66,10 +66,11 @@ namespace GeometryWars
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
-                /*
+                
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
-                    for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                    //for (int j = 0; j < (int)(PlayerStatus.Combo / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier / 2; j++)
+                    for (int j = 0; j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier * 2; j++)
                     {
                         EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                         //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0); 
@@ -78,9 +79,10 @@ namespace GeometryWars
                 }
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
-                    if (PlayerStatus.Multiplier != 500)
+                    if (PlayerStatus.Combo != 500)
                     {
-                        for (int j = 0; j < (int)(PlayerStatus.Multiplier / 50) % 4 || j < (PlayerShip.WeaponLevel * 3 + 1) % 3; j++)
+                        //for (int j = 0; j < (int)(PlayerStatus.Combo / 50) % 4 || j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
+                            for (int j = 0; j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
                         {
                             EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
                             //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
@@ -89,9 +91,10 @@ namespace GeometryWars
                  
                     }
                 }
-                if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
+                
+                if (EntityManager.BlackHoleCount < 5 && rand.Next((int)inverseBlackHoleChance) == 0)
                     EntityManager.Add(new BlackHole(GetSpawnPosition()));
-                 */
+                 /*
                 if (rand.Next((int)inverseSpawnChance) == 0)
                 {
                     for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
@@ -102,12 +105,13 @@ namespace GeometryWars
 
                     //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                 }
-
+                  */
+                
             }
 
             // slowly increase the spawn rate as time progresses
             if (inverseSpawnChance > 10)
-                inverseSpawnChance -= 0.0005f;
+                inverseSpawnChance -= 0.005f;
 
         }
         #endregion

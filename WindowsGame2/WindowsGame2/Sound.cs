@@ -10,7 +10,7 @@ namespace GeometryWars
 {
     static class Sound
     {
-        public static Song Music { get; private set; }
+        public static Song Music { get; set; }
 
         private static readonly Random rand = new Random();
 
@@ -26,7 +26,7 @@ namespace GeometryWars
 
         public static void Load(ContentManager content)
         {
-            //Music = content.Load<Song>("Sound/Music");
+            Music = content.Load<Song>("Sound/Music/Test2");
 
             // These linq expressions are just a fancy way loading all sounds of each category into an array.
             explosions = Enumerable.Range(1, 8).Select(x => content.Load<SoundEffect>("Sound/explosion-0" + x)).ToArray();

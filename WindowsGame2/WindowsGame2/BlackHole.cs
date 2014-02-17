@@ -59,7 +59,7 @@ namespace GeometryWars
 
             PlayerStatus.AddPoints(PointValue);
             for (int i = 0; i < PointValue; i++)
-                PlayerStatus.IncreaseMultiplier();
+                PlayerStatus.IncreaseCombo();
             Effect();
         }
 
@@ -69,6 +69,7 @@ namespace GeometryWars
             hitpoints = 0;
             Effect();
             GameRoot.grid.ApplyExplosiveForce(100f, Position, 350);
+            IsExpired = true;
         }
 
         #region Update

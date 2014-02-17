@@ -91,7 +91,7 @@ namespace GeometryWars
             framesUntilRespawn = 60;
             framesUntilRespawn = PlayerStatus.isGameOver ? 300 : framesUntilRespawn;
 
-           
+            PlayerStatus.HalfMultiplier();
 
             for (int i = 0; i < 1200; i++)
             {
@@ -140,6 +140,8 @@ namespace GeometryWars
                 cooldownRemaining = cooldownFrames;
                 float aimAngle = aim.ToAngle();
                 Quaternion aimQuat = Quaternion.CreateFromYawPitchRoll(0, 0, aimAngle);
+                Quaternion aimQuatPlusSome = Quaternion.CreateFromYawPitchRoll(0, 0, aimAngle + 1);
+                Quaternion aimQuatMinusSome = Quaternion.CreateFromYawPitchRoll(0, 0, aimAngle - 1);
 
                 float randomSpread = rand.NextFloat(-0.04f, 0.04f) + rand.NextFloat(-0.04f, 0.04f);
                 Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11F);
@@ -154,7 +156,7 @@ namespace GeometryWars
                 }
                 else if (WeaponLevel == 1)
                 {
-                    cooldownFrames = 6;
+                    cooldownFrames = 4;
 
                     offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
