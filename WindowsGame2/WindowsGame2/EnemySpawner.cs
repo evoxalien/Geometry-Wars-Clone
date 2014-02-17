@@ -58,7 +58,7 @@ namespace GeometryWars
         }
         #endregion
 
-        #region Update
+        #region UpdateAndSpawning
         public static void Update()
         {
 
@@ -91,8 +91,8 @@ namespace GeometryWars
                  
                     }
                 }
-                
-                if (EntityManager.BlackHoleCount < 5 && rand.Next((int)inverseBlackHoleChance) == 0)
+
+                if (EntityManager.BlackHoleCount < PlayerStatus.Multiplier % 5 && rand.Next((int)inverseBlackHoleChance) == 0)
                     EntityManager.Add(new BlackHole(GetSpawnPosition()));
                  /*
                 if (rand.Next((int)inverseSpawnChance) == 0)
