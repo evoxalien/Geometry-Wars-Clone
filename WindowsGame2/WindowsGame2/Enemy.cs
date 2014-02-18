@@ -36,13 +36,20 @@ namespace GeometryWars
         #region EnemyLogic
         IEnumerable<int> FollowPlayer(float acceleration = 1f)
         {
+            Vector2 PlayerPosition = PlayerShip.Instance.Position;
+            
+            Vector2 LastPlayerPosition = PlayerPosition;
+            
             while (true)
             {
+                LastPlayerPosition = (PlayerPosition + LastPlayerPosition) /2;
+                if((GameRoot.frameCounter / 30) == 1)
+                    PlayerPosition = PlayerShip.Instance.Position;
+
                 float LastOrientation = Orientation;
-                Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
+                Velocity += (LastPlayerPosition - Position).ScaleTo(acceleration);
                 if (Velocity != Vector2.Zero)
                     Orientation = Velocity.ToAngle();
-                    
                 yield return 0;
             }
         }

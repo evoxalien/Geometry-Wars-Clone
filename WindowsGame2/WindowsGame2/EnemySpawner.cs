@@ -111,7 +111,7 @@ namespace GeometryWars
 
             // slowly increase the spawn rate as time progresses
             if (inverseSpawnChance > 10)
-                inverseSpawnChance -= 0.005f;
+                inverseSpawnChance -= 0.0025f;
 
         }
         #endregion

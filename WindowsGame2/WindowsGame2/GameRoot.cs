@@ -29,7 +29,7 @@ namespace GeometryWars
         public const string highScoreFilename = "highscore.txt";
         public static Grid grid;
         private bool isFullscreen = false;
-        int frameCounter;
+        public static int frameCounter;
         int FPS;
         float elapsedTime;
 
