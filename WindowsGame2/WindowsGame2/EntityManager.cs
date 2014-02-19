@@ -112,7 +112,8 @@ namespace GeometryWars
                     }
                 }
             }
-
+            Boss boss;
+            boss.FlappyKing();
             // handle collisions with black holes
             for (int i = 0; i < blackHoles.Count; i++)
             {//Colliding with enemies

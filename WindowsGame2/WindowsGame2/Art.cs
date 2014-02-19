@@ -25,6 +25,7 @@ namespace GeometryWars
         public static Texture2D Glow { get; private set; }
 
         public static Texture2D FlappyBirdMinion { get; private set; }
+        public static Texture2D FlappyKing { get; private set; }
 
         public static SpriteFont Font { get; private set; }
 
@@ -40,6 +41,7 @@ namespace GeometryWars
             Glow = content.Load<Texture2D>("Art/Glow");
 
             FlappyBirdMinion = content.Load<Texture2D>("Art/FlappyBird");
+            FlappyKing = content.Load<Texture2D>("Art/FlappyBirdBoss");
             
             //This is for the Grid Background and PlayerShip Exhaust
             Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);

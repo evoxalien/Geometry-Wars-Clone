@@ -75,7 +75,7 @@ namespace GeometryWars
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Sound.Music);
+            //MediaPlayer.Play(Sound.Music);
             ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
 
  
@@ -122,8 +122,8 @@ namespace GeometryWars
 
             
             // Allows the game to exit
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                //this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
             {

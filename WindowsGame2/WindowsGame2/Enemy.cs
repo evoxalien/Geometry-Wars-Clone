@@ -21,7 +21,6 @@ namespace GeometryWars
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
         private int PointValue { get; set; }
         private int EnemyType = 0;
-        public int scale;
         //float MaxAngle = 2;
 
 
@@ -42,12 +41,22 @@ namespace GeometryWars
             
             while (true)
             {
-                LastPlayerPosition = (PlayerPosition + LastPlayerPosition) /2;
-                if((GameRoot.frameCounter / 30) == 1)
-                    PlayerPosition = PlayerShip.Instance.Position;
-
-                float LastOrientation = Orientation;
-                Velocity += (LastPlayerPosition - Position).ScaleTo(acceleration);
+                int framesPerMove = 10;
+                PlayerPosition = PlayerShip.Instance.Position;
+                /*
+                for (int i = 0; i < framesPerMove; i++)
+                {
+                    if(i == 0)
+                        LastPlayerPosition = PlayerShip.Instance.Position;
+                    if(i == 4)
+                        PlayerPosition = PlayerShip.Instance.Position;
+                    Velocity += (((PlayerPosition + LastPlayerPosition)/2) - Position).ScaleTo(acceleration);
+                    if (Velocity != Vector2.Zero)
+                        Orientation = Velocity.ToAngle();
+                    yield return 0;
+                }
+                */
+                Velocity += (PlayerPosition - Position).ScaleTo(acceleration);
                 if (Velocity != Vector2.Zero)
                     Orientation = Velocity.ToAngle();
                 yield return 0;

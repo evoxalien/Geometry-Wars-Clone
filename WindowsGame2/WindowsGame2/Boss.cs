@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GeometryWars
 {
-    class Boss : Entity
+    public class Boss : Entity
     {
         public static Random rand = new Random();
         private int timeUntilStart = 60;
@@ -59,6 +59,21 @@ namespace GeometryWars
 
             Effect();
 
+        }
+
+        public Boss FlappyKing()
+        {
+
+            Position = new Vector2(GameRoot.Viewport.Width - 200, GameRoot.Viewport.Height);
+  
+            var enemy = new Boss(Art.FlappyKing, Position);
+
+            //enemy.AddBehaviour();
+            //enemy.AddBehaviour(enemy.FollowPlayer());
+            enemy.PointValue = 1;
+            enemy.EnemyType = 3;
+
+            return enemy;
         }
 
         public void HandleCollision(Enemy other)
