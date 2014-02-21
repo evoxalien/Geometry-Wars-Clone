@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GeometryWars
 {
-    public class Boss : Entity
+    class Boss : Entity
     {
         public static Random rand = new Random();
         private int timeUntilStart = 60;
@@ -20,7 +20,7 @@ namespace GeometryWars
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
         private int PointValue { get; set; }
         private int EnemyType = 0;
-
+        
         public Boss(Texture2D image, Vector2 position)
         {
             this.image = image;
@@ -28,7 +28,7 @@ namespace GeometryWars
             Radius = image.Width / 2f;
             color = Color.Transparent;
         }
-
+        
         public void Effect()
         {
             for (int i = 0; i < 20; i++)
@@ -66,22 +66,22 @@ namespace GeometryWars
 
             Position = new Vector2(GameRoot.Viewport.Width - 200, GameRoot.Viewport.Height);
   
-            var enemy = new Boss(Art.FlappyKing, Position);
+            var boss = new Boss(Art.FlappyKing, Position);
 
             //enemy.AddBehaviour();
             //enemy.AddBehaviour(enemy.FollowPlayer());
-            enemy.PointValue = 1;
-            enemy.EnemyType = 3;
+            boss.PointValue = 1;
+            boss.EnemyType = 3;
 
-            return enemy;
+            return boss;
         }
-
+        /*
         public void HandleCollision(Enemy other)
         {
             var d = Position - other.Position;
             Velocity += 10 * d / (d.LengthSquared() + 1);
         }
-
+        */
         private void ApplyBehaviors()
         {
             for (int i = 0; i < behaviours.Count; i++)

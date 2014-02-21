@@ -18,6 +18,9 @@ namespace GeometryWars
         static float inverseSpawnChance = 45;
         static float inverseBlackHoleChance = 600;
         private static int MaxEnemyCount = 500;
+        private static bool RandomSpawns = true;
+        public static int SpawnCounter = 0;
+        private static int NumTillCornerSpawn = 200;
 
         #region AdditionalFunctions
         private static Vector2 GetSpawnPosition()
@@ -51,6 +54,7 @@ namespace GeometryWars
                     pos += new Vector2(rand.Next(5) / 2, rand.Next(5) / 2);
                     EntityManager.Add(Enemy.CreateWanderer(pos));
                     Swarm++;
+                    SpawnCounter++;
                 }
                 if (cooldownRemaining > 0)
                     cooldownRemaining--;
@@ -66,47 +70,88 @@ namespace GeometryWars
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));
-                
-                if (rand.Next((int)inverseSpawnChance) == 0)
+
+                if (RandomSpawns)
                 {
-                    //for (int j = 0; j < (int)(PlayerStatus.Combo / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier / 2; j++)
-                    for (int j = 0; j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier * 2; j++)
+                    //Random Spawns
+                    if (rand.Next((int)inverseSpawnChance) == 0)
                     {
-                        EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
-                        //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0); 
-                    }
-                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
-                }
-                if (rand.Next((int)inverseSpawnChance) == 0)
-                {
-                    if (PlayerStatus.Combo != 500)
-                    {
-                        //for (int j = 0; j < (int)(PlayerStatus.Combo / 50) % 4 || j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
-                            for (int j = 0; j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
+                        //for (int j = 0; j < (int)(PlayerStatus.Combo / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier / 2; j++)
+                        for (int j = 0; j < (PlayerShip.WeaponLevel * 2) || j < PlayerStatus.Multiplier * 2; j++)
                         {
-                            EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
-                            //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                            EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                            //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0); 
+                            SpawnCounter++;
                         }
-                        //EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
-                 
+                        //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
                     }
-                }
-
-                if (EntityManager.BlackHoleCount < PlayerStatus.Multiplier % 5 && rand.Next((int)inverseBlackHoleChance) == 0)
-                    EntityManager.Add(new BlackHole(GetSpawnPosition()));
-                 /*
-                if (rand.Next((int)inverseSpawnChance) == 0)
-                {
-                    for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                    if (rand.Next((int)inverseSpawnChance) == 0)
                     {
-                        EntityManager.Add(Enemy.CreateFlappyMinion(GetSpawnPosition()));
-                        //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                        if (PlayerStatus.Combo != 500)
+                        {
+                            //for (int j = 0; j < (int)(PlayerStatus.Combo / 50) % 4 || j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
+                            for (int j = 0; j < (PlayerShip.WeaponLevel * 3 + 1) % 3 || j < PlayerStatus.Multiplier; j++)
+                            {
+                                EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+                                //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                                SpawnCounter++;
+                            }
+                            //EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+
+                        }
                     }
 
-                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                    if (EntityManager.BlackHoleCount < PlayerStatus.Multiplier % 5 && rand.Next((int)inverseBlackHoleChance) == 0)
+                        EntityManager.Add(new BlackHole(GetSpawnPosition()));
+                    if (SpawnCounter >= NumTillCornerSpawn)
+                        RandomSpawns = false;
+                    /*
+                   if (rand.Next((int)inverseSpawnChance) == 0)
+                   {
+                       for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) % 3 || j < (PlayerShip.WeaponLevel * 2); j++)
+                       {
+                           EntityManager.Add(Enemy.CreateFlappyMinion(GetSpawnPosition()));
+                           //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                       }
+
+                       //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                   }
+                     */
                 }
-                  */
-                
+                if (!RandomSpawns)
+                {
+                    if (rand.Next((int)inverseSpawnChance) == 0)
+                        for (int i = 0; i < 5; i++)
+                        {
+                            EntityManager.Add(Enemy.CreateSeeker(new Vector2(20 + rand.Next(0, 10), 20 + rand.Next(0, 10))));
+                            SpawnCounter++;
+                        }
+                    if (rand.Next((int)inverseSpawnChance) == 0)
+                        for (int i = 0; i < 5; i++)
+                        {
+                            EntityManager.Add(Enemy.CreateSeeker(new Vector2(20 + rand.Next(0, 10), GameRoot.Viewport.Height - rand.Next(0, 10))));
+                            SpawnCounter++;
+                        }
+                    if (rand.Next((int)inverseSpawnChance) == 0)
+                        for (int i = 0; i < 5; i++)
+                        {
+                            EntityManager.Add(Enemy.CreateSeeker(new Vector2(GameRoot.Viewport.Width - rand.Next(0, 10), 20 + rand.Next(0, 10))));
+                            SpawnCounter++;
+                        }
+                    if (rand.Next((int)inverseSpawnChance) == 0)
+                        for (int i = 0; i < 5; i++)
+                        {
+                            EntityManager.Add(Enemy.CreateSeeker(new Vector2(GameRoot.Viewport.Width - rand.Next(0, 10),GameRoot.Viewport.Height - rand.Next(0, 10))));
+                            SpawnCounter++;
+                        }
+
+                    //Corner Spawning
+                    if (SpawnCounter >= NumTillCornerSpawn + (10 * PlayerStatus.Multiplier))
+                    {
+                        RandomSpawns = true;
+                        SpawnCounter = 0;
+                    }
+                }
             }
 
             // slowly increase the spawn rate as time progresses

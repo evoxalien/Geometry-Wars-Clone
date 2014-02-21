@@ -165,9 +165,20 @@ namespace GeometryWars
                     EntityManager.Add(new Bullet(Position + offset, vel));
                     Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                 }
-                else if (WeaponLevel >= 2)
+                else if (WeaponLevel == 2)
                 {
                     cooldownFrames = 3;
+                    offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+
+                    offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
+                    EntityManager.Add(new Bullet(Position + offset, vel));
+                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+
+                }
+                else if (WeaponLevel >= 3)
+                {
+                    cooldownFrames = 2;
                     offset = Vector2.Transform(new Vector2(35, -8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
 
