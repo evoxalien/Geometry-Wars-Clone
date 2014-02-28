@@ -67,7 +67,7 @@ namespace GeometryWars
                 GameRoot.ParticleManager.CreateParticle(Art.Glow, pos, midColor * alpha, 15f, new Vector2(0.5f, 1),
                     new ParticleState(velMid, ParticleType.Enemy));
 
-                //-------------Sid Particle Stream!----------------
+                //-------------Side Particle Stream!----------------
                 Vector2 vel1 = baseVel + prepVel + rand.NextVector2(0, 0.3f);
                 Vector2 vel2 = baseVel - prepVel + rand.NextVector2(0, 0.3f);
 
