@@ -26,11 +26,14 @@ namespace GeometryWars
 
         public static Texture2D FlappyBirdMinion { get; private set; }
         public static Texture2D FlappyKing { get; private set; }
+        public static Texture2D ScoreScreen { get; private set; }
 
         public static SpriteFont Font { get; private set; }
 
         public static void Load(ContentManager content)
         {
+            ScoreScreen = content.Load<Texture2D>("Art/InternetWars");
+
             Player = content.Load<Texture2D>("Art/Player");
             Bullet = content.Load<Texture2D>("Art/Bullet");
             Seeker = content.Load<Texture2D>("Art/Seeker");

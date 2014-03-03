@@ -90,11 +90,15 @@ namespace GeometryWars
             if (PlayerShip.Instance.IsDead)
                 return;
             Score += basePoints * Multiplier;
+
             while (Score >= scoreForExtraLife)
             {
                 scoreForExtraLife *= 2;
                 Lives++;
             }
+
+            if(Score >= 300000 && EnemySpawner.SpawnFlappyKing != true && EnemySpawner.FlappyKingSpawned == false)
+                    EnemySpawner.SpawnFlappyKing = true;
         }
 
         public static void RemoveLife()
