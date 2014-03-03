@@ -18,11 +18,14 @@ namespace GeometryWars
 
         //Entity Lists
         static List<Entity> entities = new List<Entity>();
-        static List<Enemy> enemies = new List<Enemy>();
+        public static List<Enemy> enemies = new List<Enemy>();
         static List<Bullet> bullets = new List<Bullet>();
         static List<BlackHole> blackHoles = new List<BlackHole>();
+        static List<Boss> bosses = new List<Boss>();
 
+        public static IEnumerable<Boss> Bosses { get { return bosses; } }
         public static IEnumerable<BlackHole> BlackHoles { get { return blackHoles; } }
+        public static IEnumerable<Enemy> Enemies { get { return enemies; } }
 
         static bool isUpdating;
         static List<Entity> addedEntities = new List<Entity>();
@@ -41,6 +44,9 @@ namespace GeometryWars
                 enemies.Add(entity as Enemy);
             else if (entity is BlackHole)
                 blackHoles.Add(entity as BlackHole);
+            else if (entity is Boss)
+                bosses.Add(entity as Boss);
+
         }
 
         public static void Add(Entity entity)
@@ -92,6 +98,15 @@ namespace GeometryWars
                         for (int p = 0; p < 30; p++)
                             GameRoot.ParticleManager.CreateParticle(Art.LineParticle, bullets[j].Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
                     }
+                }
+        for(int j = 0; j < bosses.Count; j++)
+            for(int i = 0; i < bullets.Count; i++)
+                if(IsColliding(bosses[j], bullets[i]))
+                {
+                    bosses[j].WasShot();
+                    bullets[i].IsExpired = true;
+                    for (int p = 0; p < 30; p++)
+                        GameRoot.ParticleManager.CreateParticle(Art.LineParticle, bullets[i].Position, Color.LightBlue, 50, new Vector2(0.5f, 0.5f), new ParticleState() { Velocity = rand.NextVector2(0, 9), Type = ParticleType.Bullet, LengthMultiplier = 1 });
                 }
 
             //HANDLE COLLISIONS BETWEEN PLAYERS AND ENEMIES

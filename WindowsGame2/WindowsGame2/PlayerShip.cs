@@ -152,7 +152,8 @@ namespace GeometryWars
                     cooldownFrames = 4;
                     offset = Vector2.Transform(new Vector2(35, 0), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset , vel + (Velocity / 2)));
-                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    if(GameRoot.SoundOn)
+                        Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                 }
                 else if (WeaponLevel == 1)
                 {
@@ -163,7 +164,8 @@ namespace GeometryWars
 
                     offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
-                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    if (GameRoot.SoundOn)
+                        Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                 }
                 else if (WeaponLevel == 2)
                 {
@@ -173,7 +175,8 @@ namespace GeometryWars
 
                     offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
-                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    if (GameRoot.SoundOn)
+                        Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 
                 }
                 else if (WeaponLevel >= 3)
@@ -184,7 +187,8 @@ namespace GeometryWars
 
                     offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
                     EntityManager.Add(new Bullet(Position + offset, vel));
-                    Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    if (GameRoot.SoundOn)
+                        Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 
                 }
             }
@@ -198,7 +202,7 @@ namespace GeometryWars
         #region Draw
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsDead)
+            if (!IsDead && !GameRoot.StartScreen)
                 base.Draw(spriteBatch);
 
 

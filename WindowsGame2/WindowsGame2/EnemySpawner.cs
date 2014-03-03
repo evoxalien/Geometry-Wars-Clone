@@ -21,6 +21,9 @@ namespace GeometryWars
         private static bool RandomSpawns = true;
         public static int SpawnCounter = 0;
         private static int NumTillCornerSpawn = 200;
+        //static Boss FlappyKing = new Boss(Art.FlappyKing, new Vector2(GameRoot.Viewport.Width - 200, GameRoot.Viewport.Height));
+        public static bool FlappyKingSpawned = false;
+        public static bool SpawnFlappyKing = false;
 
         #region AdditionalFunctions
         private static Vector2 GetSpawnPosition()
@@ -66,7 +69,25 @@ namespace GeometryWars
         public static void Update()
         {
 
-            if (!PlayerShip.Instance.IsDead && EntityManager.Count < MaxEnemyCount)
+            if (SpawnFlappyKing == true)
+            {
+                if (FlappyKingSpawned == false)
+                {
+                    EntityManager.Add(Boss.FlappyKing());
+                    FlappyKingSpawned = true;
+                }
+                if (rand.Next((int)inverseSpawnChance) == 0)
+                {
+                    for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) || j < (PlayerShip.WeaponLevel * 2); j++)
+                    {
+                        EntityManager.Add(Enemy.CreateFlappyMinion(new Vector2(rand.Next(0,10), rand.Next((int)GameRoot.ScreenSize.Y))));
+                        //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+                    }
+
+                    //EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+                }
+            }
+            if (!PlayerShip.Instance.IsDead && EntityManager.Count < MaxEnemyCount && FlappyKingSpawned == false)//Remove this to spawn regular again
             {
                 //if (rand.Next((int)inverseSpawnChance) == 0)
                     //EntityManager.Add(Enemy.CreateSquareDance(GetSpawnPosition()));

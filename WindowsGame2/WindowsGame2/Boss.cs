@@ -20,6 +20,7 @@ namespace GeometryWars
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
         private int PointValue { get; set; }
         private int EnemyType = 0;
+        private int Health = 20;
         
         public Boss(Texture2D image, Vector2 position)
         {
@@ -52,36 +53,84 @@ namespace GeometryWars
 
         public void WasShot()
         {
+            Health--;
             PlayerStatus.AddPoints(PointValue);
-            PlayerStatus.IncreaseCombo();
+            for(int i = 0; i < 5; i++)
+                PlayerStatus.IncreaseCombo();
             //Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
-            IsExpired = true;
-
+            if (Health <= 0)
+            {
+                IsExpired = true;
+                EnemySpawner.FlappyKingSpawned = false;
+                EnemySpawner.SpawnFlappyKing = false;
+                EntityManager.enemies.ForEach(x => x.WasShot());
+            }
             Effect();
 
         }
 
-        public Boss FlappyKing()
+
+        IEnumerable<int> FlappyBirdMotion()
         {
 
-            Position = new Vector2(GameRoot.Viewport.Width - 200, GameRoot.Viewport.Height);
+            float direction = rand.NextFloat(0, MathHelper.TwoPi);
+            int framesBetweenDips = rand.Next(200,500);
+
+            while (true)
+            {
+                float LastOrientation = Orientation;
+                
+                framesBetweenDips = rand.Next(200, 500);
+                for (int i = 0; i < framesBetweenDips / 3 + rand.Next(0, 100); i++)
+                {
+                    Velocity += (-Vector2.UnitY + Vector2.UnitX) / 2;
+                    Orientation = ((Vector2.UnitY + Vector2.UnitX) / 2).ToAngle();
+                    yield return 0;
+                }
+                framesBetweenDips = rand.Next(200, 500);
+                for (int i = 0; i < framesBetweenDips / 2 + rand.Next(0, 10); i++)
+                {
+                    Velocity += (Vector2.UnitY + Vector2.UnitX) / 2;
+                    Orientation = ((-Vector2.UnitY + Vector2.UnitX) / 2).ToAngle();
+                    yield return 0;
+                }
+
+                if (Velocity != Vector2.Zero)
+                {
+                    Orientation = Velocity.ToAngle();
+                }
+                Velocity *= .75f;
+            }
+
+        }
+
+        public static Boss FlappyKing()
+        {
+
+            Vector2 position = new Vector2(GameRoot.Viewport.Width - 200, GameRoot.Viewport.Height/2);
   
-            var boss = new Boss(Art.FlappyKing, Position);
-
-            //enemy.AddBehaviour();
-            //enemy.AddBehaviour(enemy.FollowPlayer());
-            boss.PointValue = 1;
-            boss.EnemyType = 3;
-
+            var boss = new Boss(Art.FlappyKing, position);
+            boss.AddBehaviour(boss.FlappyBirdMotion());
+            boss.Radius = 150;
+            boss.PointValue = 3;
+            boss.EnemyType = 1;
+            boss.Health = 500;
+            EntityManager.enemies.ForEach(x => x.WasShot());
             return boss;
         }
-        /*
+
+        
         public void HandleCollision(Enemy other)
         {
-            var d = Position - other.Position;
-            Velocity += 10 * d / (d.LengthSquared() + 1);
+            //var d = Position - other.Position;
+            //Velocity += 10 * d / (d.LengthSquared() + 1);
         }
-        */
+        
+        private void AddBehaviour(IEnumerable<int> behavior)
+        {
+            behaviours.Add(behavior.GetEnumerator());
+        }
+
         private void ApplyBehaviors()
         {
             for (int i = 0; i < behaviours.Count; i++)

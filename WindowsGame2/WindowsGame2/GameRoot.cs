@@ -26,10 +26,12 @@ namespace GeometryWars
         public static Vector2 ScreenSize { get; set; }
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
+        public static bool SoundOn = false;
         public const string highScoreFilename = "highscore.txt";
         public static Grid grid;
         private bool isFullscreen = false;
         public static int frameCounter;
+        public static bool StartScreen = true;
         int FPS;
         float elapsedTime;
 
@@ -63,19 +65,21 @@ namespace GeometryWars
             int gridScale = 35;
 
             ScreenSize = new Vector2(Viewport.Width, Viewport.Height);
-
+            Input.GamePause = true;
             Input.DevModeParticles = true;
             Input.DevModeGrid = true;
             Vector2 gridSpace = new Vector2(gridScale, gridScale);
             // TODO: Add your initialization logic here
             GameTime = new GameTime();
-            //grid = new Grid(new Rectangle((int)(-gridSpace.X),(int) (-gridSpace.Y), Viewport.Width + (int)(gridSpace.X), Viewport.Height + (int)(gridSpace.Y)), new Vector2(gridSpace.X, gridSpace.Y));
             grid = new Grid(new Rectangle((int)(-gridSpace.X) * (2), (int)(-gridSpace.Y) * (2), Viewport.Width + (int)(gridSpace.X) * 3, Viewport.Height + (int)(gridSpace.Y) * 3), new Vector2(gridSpace.X, gridSpace.Y));
 
             base.Initialize();
             EntityManager.Add(PlayerShip.Instance);
-            MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(Sound.Music);
+            if (SoundOn)
+            {
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(Sound.Music);
+            }
             ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
 
  
@@ -124,6 +128,15 @@ namespace GeometryWars
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed && StartScreen == true)
+            {
+                Input.GamePause = false;
+                StartScreen = false;
+
+            }
+
+                
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
             {
@@ -186,8 +199,14 @@ namespace GeometryWars
                 Vector2 textSize = Art.Font.MeasureString(text);
                 spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
             }
+            if (StartScreen)
+            {
+                string text = "Press A to Start Game";
+                Vector2 textSize = Art.Font.MeasureString(text);
+                spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
 
-            if (Input.GamePause)
+            }
+            if (Input.GamePause && !StartScreen)
             {
                 string text = "Game Paused\n";
                 Vector2 textSize = Art.Font.MeasureString(text);
