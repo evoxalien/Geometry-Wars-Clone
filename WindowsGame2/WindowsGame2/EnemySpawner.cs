@@ -80,7 +80,7 @@ namespace GeometryWars
                 {
                     for (int j = 0; j < (int)(PlayerStatus.Multiplier / 100 + 1) || j < (PlayerShip.WeaponLevel * 2); j++)
                     {
-                        EntityManager.Add(Enemy.CreateFlappyMinion(new Vector2(rand.Next(0,10), rand.Next((int)GameRoot.ScreenSize.Y))));
+                        EntityManager.Add(Enemy.CreateFlappyMinion(new Vector2(rand.Next(0,200), rand.Next((int)GameRoot.ScreenSize.Y))));
                         //Sound.Spawn.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
                     }
 

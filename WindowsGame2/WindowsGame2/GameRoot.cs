@@ -26,7 +26,7 @@ namespace GeometryWars
         public static Vector2 ScreenSize { get; set; }
         public static ParticleManager<ParticleState> ParticleManager { get; private set; }
         public static GameTime GameTime;
-        public static bool SoundOn = false;
+        public static bool SoundOn = true;
         public const string highScoreFilename = "highscore.txt";
         public static Grid grid;
         private bool isFullscreen = false;
