@@ -97,8 +97,6 @@ namespace GeometryWars
                 Lives++;
             }
 
-            if(Score >= 300000 && EnemySpawner.SpawnFlappyKing != true && EnemySpawner.FlappyKingSpawned == false)
-                    EnemySpawner.SpawnFlappyKing = true;
         }
 
         public static void RemoveLife()

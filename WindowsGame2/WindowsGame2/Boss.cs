@@ -64,6 +64,7 @@ namespace GeometryWars
                 EnemySpawner.FlappyKingSpawned = false;
                 EnemySpawner.SpawnFlappyKing = false;
                 EntityManager.enemies.ForEach(x => x.WasShot());
+                EnemySpawner.bosseskilled++;
             }
             Effect();
 
