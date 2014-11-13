@@ -129,7 +129,7 @@ namespace GeometryWars
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed && StartScreen == true)
+            if (((GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed) || (Input.WasKeyPressed(Keys.Space)))  && StartScreen == true)
             {
                 Input.GamePause = false;
                 StartScreen = false;
@@ -197,7 +197,7 @@ namespace GeometryWars
                     "Your Score: " + PlayerStatus.Score + "\n" +
                     "High Score: " + PlayerStatus.HighScore;
                 Vector2 textSize = Art.Font.MeasureString(text);
-                spriteBatch.Draw(Art.ScoreScreen, ScreenSize / 2, null, Color.White, 0,new Vector2(1000,600)/ 2f, 1f, 0, 0);
+                spriteBatch.Draw(Art.ScoreScreen, ScreenSize / 2, null, Color.White, 0, new Vector2(1100,900)/ 2f, 1f, 0, 0);
                 spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
             }
             if (StartScreen)
